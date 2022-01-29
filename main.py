@@ -82,8 +82,8 @@ while running == True:
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
+            running = False
+            
         elif event.type == pygame.MOUSEBUTTONUP:
             pos = pygame.mouse.get_pos()
 
@@ -221,38 +221,7 @@ while running == True:
     group.draw(screen)
     pygame.display.update()
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        elif event.type == pygame.MOUSEBUTTONUP:
-            pos = pygame.mouse.get_pos()
 
-            if my_clicker.rect.collidepoint(pos):
-                result = my_clicker.click()
-                pollution += result[0]
-                money += result[1]
-
-            clicked_buttons = [b for b in buttons if b.rect.collidepoint(pos)]
-
-            for b in clicked_buttons:
-                result = b.click(money)
-                money += result[0]
-                if isinstance(result[1], generator.Generator):
-                    generator_list.append(result[1])
-                    if b.pollution_modifier == -1:
-                        generators["volunteer"] += 1
-                    elif b.pollution_modifier == -5:
-                        generators["volunteer group"] += 1
-                    elif b.pollution_modifier == -50:
-                        generators["recycle plant"] += 1
-                    elif b.pollution_modifier == 10:
-                        generators["factory"] += 1
-
-
-            clicked_companies = [c for c in companies if c.rect.collidepoint(pos)]
-
-            for c in clicked_companies:
-                c.click()
 while lose == True:
     screen.fill((255, 255, 255))
     font = pygame.font.Font(None, 55)
