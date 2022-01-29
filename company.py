@@ -2,10 +2,10 @@ if __name__ != "__main__":
     import pygame
     import time
     import generator
-    import random
 
     class Company(pygame.sprite.Sprite):
         def __init__(self, x, y):
+            super().__init__()
             self.start = time.time()
             self.image = pygame.image.load("factory.png")
             self.image = pygame.transform.scale(self.image, (40, 40))
