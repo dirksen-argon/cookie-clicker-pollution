@@ -25,26 +25,43 @@ font = pygame.font.Font(None, 16)
 volunteer_count = pygame.sprite.Sprite()
 volunteer_group_count = pygame.sprite.Sprite()
 recycle_plant_count = pygame.sprite.Sprite()
+gift_shop_count = pygame.sprite.Sprite()
+donation_count = pygame.sprite.Sprite()
+grant_count = pygame.sprite.Sprite()
 factory_count = pygame.sprite.Sprite()
 
 generators = {"volunteer": 0, "volunteer group": 0, "recycle plant": 0, \
-              "factory": 0}
+              "gift shop": 0, "donator": 0, "grant": 0, "factory": 0}
 
 buttons = pygame.sprite.RenderPlain()
-v_button = button.Button("Volunteer $50 -1 pollution/sec", 50, -1, 1)
-v_g_button = button.Button("Volunteer Group $200 -5 pollution/sec", 200, -5, 1)
-r_p_button = button.Button("Recycle Plant $1000 -50 pollution/sec", 1000, -50, 1)
+v_button = button.Button("Volunteer: $50, -1 pollution/sec", 50, 1, -1)
+v_g_button = button.Button("Volunteer Group: $200, -5 pollution/sec", 200, 1, -5)
+r_p_button = button.Button("Recycle Plant: $1000, -50 pollution/sec", 1000, 1, -50)
+g_s_button = button.Button("Open gift shop: $10, +$1/sec", 10, 1, 0, 1)
+d_button = button.Button("Earn donations: $100, +$15/sec", 100, 1, 0, 15)
+g_button = button.Button("Apply for grant: $500, $100/sec", 500, 1, 0, 100)
 
-v_button.rect.x = 200
-v_g_button.rect.x = 200
-r_p_button.rect.x = 200
-v_button.rect.y = 300
-v_g_button.rect.y = 350
-r_p_button.rect.y = 400
+
+v_button.rect.right = screen.get_rect().right
+v_g_button.rect.right = screen.get_rect().right
+r_p_button.rect.right = screen.get_rect().right
+g_s_button.rect.right = screen.get_rect().right
+d_button.rect.right = screen.get_rect().right
+g_button.rect.right = screen.get_rect().right
+v_button.rect.top = 0
+v_g_button.rect.top = 16
+r_p_button.rect.top = 32
+g_s_button.rect.top = 48
+d_button.rect.top = 64
+g_button.rect.top = 80
+
 
 buttons.add(v_button)
 buttons.add(v_g_button)
 buttons.add(r_p_button)
+buttons.add(g_s_button)
+buttons.add(d_button)
+buttons.add(g_button)
 
 generator_list = []
 companies = pygame.sprite.RenderPlain()
@@ -84,6 +101,12 @@ while True:
                         generators["recycle plant"] += 1
                     elif b.pollution_modifier == 10:
                         generators["factory"] += 1
+                    elif b.money == 1:
+                        generators["gift shop"] += 1
+                    elif b.money == 15:
+                        generators["donator"] += 1
+                    elif b.money == 100:
+                        generators["grant"] += 1
 
 
             clicked_companies = [c for c in companies if c.rect.collidepoint(pos)]
@@ -114,8 +137,29 @@ while True:
 
 
     list_items = 0
+    if generators["gift shop"] > 0:
+        gift_shop_count.image = font.render("Gift Shops: " + str(generators["gift shop"]), True, (0,0,0))
+        gift_shop_count.rect = pygame.Rect(0, list_items*16, 1, 1)
+        list_items += 1
+        group.add(gift_shop_count)
+    else:
+        group.remove(gift_shop_count)
+    if generators["donator"] > 0:
+        donation_count.image = font.render("Donators: " + str(generators["donator"]), True, (0,0,0))
+        donation_count.rect = pygame.Rect(0, list_items*16, 1, 1)
+        list_items += 1
+        group.add(donation_count)
+    else:
+        group.remove(donation_count)
+    if generators["grant"] > 0:
+        grant_count.image = font.render("Grants earned: " + str(generators["grant"]), True, (0,0,0))
+        grant_count.rect = pygame.Rect(0, list_items*16, 1, 1)
+        list_items += 1
+        group.add(grant_count)
+    else:
+        group.remove(grant_count)
     if generators["volunteer"] > 0:
-        volunteer_count.image = font.render("Volunteers (-1 pollution/sec): " + str(generators["volunteer"]), True, (0,0,0))
+        volunteer_count.image = font.render("Volunteers: " + str(generators["volunteer"]), True, (0,0,0))
         volunteer_count.rect = pygame.Rect(0, list_items*16, 1, 1)
         list_items += 1
         group.add(volunteer_count)
