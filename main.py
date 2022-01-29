@@ -95,7 +95,9 @@ while True:
         
 
     for gen in generator_list:
-        pollution += gen.add()
+        result = gen.add()
+        pollution += result[0]
+        money += result[1]
 
     screen.fill((0, 191, 255))
     pollution_text = font.render("Pollution: " + str(pollution), True, (0,0,0))
