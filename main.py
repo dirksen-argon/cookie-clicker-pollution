@@ -156,16 +156,16 @@ while running == True:
     factory_end = time.time()
     factory_time = int(factory_end) - int(factory_start)
     if factory_time >= 40 and not(first_factory):
-        companies.add(company.Company(2, 547))
+        companies.add(company.Company(2, 500))
         first_factory = True
     if factory_time >= 80 and not(second_factory):
-        companies.add(company.Company(52, 547))
+        companies.add(company.Company(102, 500))
         second_factory = True
     if factory_time >= 120 and not(third_factory):
-        companies.add(company.Company(102, 547))
+        companies.add(company.Company(202, 500))
         third_factory = True
     if factory_time >= 160 and not(fourth_factory):
-        companies.add(company.Company(202, 547))
+        companies.add(company.Company(302, 500))
         fourth_factory = True
 
     if pollution >= 10000:
