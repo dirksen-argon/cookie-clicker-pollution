@@ -301,7 +301,7 @@ while running == True:
     screen.blit(pollution_text, pollution_text_rect)
     screen.blit(money_text, money_text_rect)
 
-    if time.time() - hint_time <= 0.25:
+    if time.time() - hint_time <= 0.1:
         hint_color = (255, 255, 255)
     else:
         hint_color = (0,0,0)
