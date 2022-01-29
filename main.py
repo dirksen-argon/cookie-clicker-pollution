@@ -86,11 +86,34 @@ while running == True:
     screen.fill((0, 191, 255))
 
 
-    if int(time.time()) - int(start_time) >= 15:
+
+
+    if int(time.time()) - int(start_time) >= 30:
         passive.pol = passive.pol * 2
         start_time = time.time()
-        if passive.pol >= 700:
+        if passive.pol > 700:
             passive.pol = 700
+
+    your_hand = False
+    position = pygame.mouse.get_pos()
+    if my_clicker.rect.collidepoint(position):
+        your_hand = True
+        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+
+    for be in buttons:
+        if be.rect.collidepoint(position):
+            your_hand = True
+            pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+
+    for pol in companies:
+        if pol.rect.collidepoint(position):
+            your_hand = True
+            pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+
+    if your_hand == False:
+        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
+
+
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -131,17 +154,20 @@ while running == True:
 
             for c in clicked_companies:
                 c.click()
-            
-    if pollution <= 800 and not(first_factory):
-        companies.add(company.Company(2, 547))
+
+    factory_end = time.time()
+    factory_time = int(factory_end) - int(factory_start)
+    if factory_time >= 40 and not(first_factory):
+        companies.add(company.Company(2, 500))
+
         first_factory = True
-    if pollution <= 500 and not(second_factory):
+    if factory_time >= 80 and not(second_factory):
         companies.add(company.Company(52, 547))
         second_factory = True
-    if pollution <= 200 and not(third_factory):
+    if factory_time >= 120 and not(third_factory):
         companies.add(company.Company(102, 547))
         third_factory = True
-    if money >= 20000 and not(fourth_factory):
+    if factory_time >= 160 and not(fourth_factory):
         companies.add(company.Company(202, 547))
         fourth_factory = True
 
