@@ -15,6 +15,6 @@ if __name__ != "__main__":
                 self.start = time.time()
                 return self.pol, self.money
             else:
-                return 0
+                return (0, 0)
 else:
     print(" of pop ")
