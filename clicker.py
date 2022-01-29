@@ -1,0 +1,14 @@
+if __name__ != __main__:
+    import pygame
+
+    class Clicker(pygame.Sprite)
+        def __init__(self)
+            super().__init__()
+            self.money = 0
+            self.image = pygame.image.load("click.png")
+            self.rect = self.image.get_rect()
+        '''def click(self)
+            self.money = self.money + 1
+            pollution = '''
+else:
+    print("99 bottles")
