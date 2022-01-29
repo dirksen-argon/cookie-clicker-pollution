@@ -7,7 +7,7 @@ if __name__ != "__main__":
             self.image = pygame.image.load("earth.png")
             self.image = pygame.transform.scale(self.image, (200, 200))
             self.rect = self.image.get_rect()
-            self.rect.center = (50, 100)
+            self.rect.topleft = (0, 0)
         def click(self):
             return -1, 1
 else:
