@@ -20,6 +20,8 @@ group.add(my_clicker)
 pollution = 1000
 money = 0
 
+
+
 font = pygame.font.Font(None, 16)
 
 volunteer_count = pygame.sprite.Sprite()
@@ -43,18 +45,18 @@ d_button = button.Button("Earn donations: $100, +$15/sec", 100, 1, 0, 15)
 g_button = button.Button("Apply for grant: $500, $100/sec", 500, 1, 0, 100)
 
 
-v_button.rect.right = screen.get_rect().right
-v_g_button.rect.right = screen.get_rect().right
-r_p_button.rect.right = screen.get_rect().right
-g_s_button.rect.right = screen.get_rect().right
-d_button.rect.right = screen.get_rect().right
-g_button.rect.right = screen.get_rect().right
-v_button.rect.top = 0
-v_g_button.rect.top = 16
-r_p_button.rect.top = 32
-g_s_button.rect.top = 48
-d_button.rect.top = 64
-g_button.rect.top = 80
+v_button.rect.right = screen.get_rect().right - 2
+v_g_button.rect.right = screen.get_rect().right - 2
+r_p_button.rect.right = screen.get_rect().right - 2
+g_s_button.rect.right = screen.get_rect().right - 2
+d_button.rect.right = screen.get_rect().right - 2
+g_button.rect.right = screen.get_rect().right - 2
+v_button.rect.top = 2
+v_g_button.rect.top = 18
+r_p_button.rect.top = 34
+g_s_button.rect.top = 50
+d_button.rect.top = 66
+g_button.rect.top = 82
 
 buttons.add(v_button)
 buttons.add(v_g_button)
@@ -65,6 +67,9 @@ buttons.add(g_button)
 
 generator_list = []
 companies = pygame.sprite.RenderPlain()
+
+passive = generator.Generator(1, 1)
+generator_list.append(passive)
 
 start_time = time.time()
 
@@ -79,6 +84,11 @@ running = True
 while running == True:
     
     screen.fill((0, 191, 255))
+
+
+    if int(time.time()) - int(start_time) >= 10:
+        passive.pol = passive.pol * 2
+        start_time = time.time()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -154,67 +164,72 @@ while running == True:
         pollution += result[0]
         money += result[1]
 
-    
+
+    passive_pollution_text = font.render("Passive Pollution: +" + str(passive.pol) + "/sec", True, (0,0,0))    
     pollution_text = font.render("Pollution: " + str(pollution), True, (0,0,0))
-    pollution_text_rect = pygame.Rect(0,400, 100, 100)
     money_text = font.render("$" + str(money), True, (0,0,0))
-    money_text_rect = pygame.Rect(0, 500, 100, 100)
 
 
     list_items = 0
     if generators["gift shop"] > 0:
         gift_shop_count.image = font.render("Gift Shops: " + str(generators["gift shop"]), True, (0,0,0))
-        gift_shop_count.rect = pygame.Rect(0, list_items*16, 1, 1)
+        gift_shop_count.rect = pygame.Rect(0, list_items*16 + 2, 1, 1)
         list_items += 1
         group.add(gift_shop_count)
     else:
         group.remove(gift_shop_count)
     if generators["donator"] > 0:
         donation_count.image = font.render("Donators: " + str(generators["donator"]), True, (0,0,0))
-        donation_count.rect = pygame.Rect(0, list_items*16, 1, 1)
+        donation_count.rect = pygame.Rect(0, list_items*16 + 2, 1, 1)
         list_items += 1
         group.add(donation_count)
     else:
         group.remove(donation_count)
     if generators["grant"] > 0:
         grant_count.image = font.render("Grants earned: " + str(generators["grant"]), True, (0,0,0))
-        grant_count.rect = pygame.Rect(0, list_items*16, 1, 1)
+        grant_count.rect = pygame.Rect(0, list_items*16 + 2, 1, 1)
         list_items += 1
         group.add(grant_count)
     else:
         group.remove(grant_count)
     if generators["volunteer"] > 0:
         volunteer_count.image = font.render("Volunteers: " + str(generators["volunteer"]), True, (0,0,0))
-        volunteer_count.rect = pygame.Rect(0, list_items*16, 1, 1)
+        volunteer_count.rect = pygame.Rect(0, list_items*16 + 2, 1, 1)
         list_items += 1
         group.add(volunteer_count)
     else:
         group.remove(volunteer_count)
     if generators["volunteer group"] > 0:
         volunteer_group_count.image = font.render("Volunteer Groups: " + str(generators["volunteer group"]), True, (0,0,0))
-        volunteer_group_count.rect = pygame.Rect(0, list_items*16, 1, 1)
+        volunteer_group_count.rect = pygame.Rect(0, list_items*16 + 2, 1, 1)
         list_items += 1
         group.add(volunteer_group_count)
     else:
         group.remove(volunteer_group_count)
     if generators["recycle plant"] > 0:
         recycle_plant_count.image = font.render("Recycle Plants: " + str(generators["recycle plant"]), True, (0,0,0))
-        recycle_plant_count.rect = pygame.Rect(0, list_items*16, 1, 1)
+        recycle_plant_count.rect = pygame.Rect(0, list_items*16 + 2, 1, 1)
         list_items += 1
         group.add(recycle_plant_count)
     else:
         group.remove(recycle_plant_count)
     if generators["factory"] > 0:
         factory_count.image = font.render("Factories: " + str(generators["factory"]), True, (0,0,0))
-        factory_count.rect = pygame.Rect(0, list_items*16, 1, 1)
+        factory_count.rect = pygame.Rect(0, list_items*16 + 2, 1, 1)
         list_items += 1
         group.add(factory_count)
     else:
         group.remove(factory_count)
     
+    pollution_text_rect = pollution_text.get_rect()
+    money_text_rect = pollution_text.get_rect()
+    pollution_text_rect.right = screen.get_rect().right - 2
+    money_text_rect.right = screen.get_rect().right - 2
+    pollution_text_rect.top = 146
+    money_text_rect.top = 162
     
-    screen.blit(pollution_text, (0, 400))
-    screen.blit(money_text, (0, 500))
+    screen.blit(pollution_text, pollution_text_rect)
+    screen.blit(money_text, money_text_rect)
 
     companies.draw(screen)
     buttons.draw(screen)
