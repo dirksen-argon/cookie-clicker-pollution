@@ -6,7 +6,7 @@ if __name__ != "__main__":
     
     class Button(pygame.sprite.Sprite):
 
-        def __init__(self, text, cost, pollution_modifier, time):
+        def __init__(self, text, cost, time, pollution_modifier=0, money=0):
             super().__init__()
             font = pygame.font.Font(None, 16)
             self.image = font.render(text, True, (0,0,0))
@@ -14,9 +14,10 @@ if __name__ != "__main__":
             self.pollution_modifier = pollution_modifier
             self.cost = cost
             self.time = time
+            self.money = money
 
         def click(self, money):
             if self.cost <= money:
-                return -self.cost, generator.Generator(self.time, self.pollution_modifier)
+                return -self.cost, generator.Generator(self.time, self.pollution_modifier, self.money)
             else:
                 return 0, None
