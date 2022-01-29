@@ -86,30 +86,11 @@ while running == True:
     screen.fill((0, 191, 255))
 
 
-
-    if int(time.time()) - int(start_time) >= 10:
+    if int(time.time()) - int(start_time) >= 15:
         passive.pol = passive.pol * 2
         start_time = time.time()
-
-    your_hand = False
-    position = pygame.mouse.get_pos()
-    if my_clicker.rect.collidepoint(position):
-        your_hand = True
-        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
-
-    for be in buttons:
-        if be.rect.collidepoint(position):
-            your_hand = True
-            pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
-
-    for pol in companies:
-        if pol.rect.collidepoint(position):
-            your_hand = True
-            pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
-
-    if your_hand == False:
-        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
-
+        if passive.pol >= 700:
+            passive.pol = 700
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -186,9 +167,9 @@ while running == True:
         money += result[1]
 
 
-    passive_pollution_text = font.render("Passive Pollution: +" + str(passive.pol) + "/sec", True, (0,0,0))    
+    passive_text = font.render("Passive Pollution: +" + str(passive.pol) + "/sec", True, (0,0,0))    
     pollution_text = font.render("Pollution: " + str(pollution), True, (0,0,0))
-    money_text = font.render("$" + str(money), True, (0,0,0))
+    money_text = font.render("$" + str(money), True, (0,0 0))
 
 
     list_items = 0
@@ -241,14 +222,18 @@ while running == True:
         group.add(factory_count)
     else:
         group.remove(factory_count)
-    
+
+    passive_text_rect = passive_text.get_rect()
     pollution_text_rect = pollution_text.get_rect()
     money_text_rect = pollution_text.get_rect()
+    passive_text_rect.right = screen.get_rect().right - 2
     pollution_text_rect.right = screen.get_rect().right - 2
     money_text_rect.right = screen.get_rect().right - 2
+    passive_text_rect.top = 114
     pollution_text_rect.top = 146
     money_text_rect.top = 162
-    
+
+    screen.blit(passive_text, passive_text_rect)
     screen.blit(pollution_text, pollution_text_rect)
     screen.blit(money_text, money_text_rect)
 
@@ -259,7 +244,6 @@ while running == True:
 
 
 while lose == True:
-    pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
     screen.fill((255, 255, 255))
     font = pygame.font.Font(None, 55)
     image = font.render("Game Over!", True, (0, 0, 0))
@@ -271,7 +255,6 @@ while lose == True:
         if event.type == pygame.QUIT:
             lose = False
 while win == True:
-    pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
     screen.fill((0, 255, 127))
     font = pygame.font.Font(None, 55)
     image = font.render("You Won!", True, (42, 79, 138))
