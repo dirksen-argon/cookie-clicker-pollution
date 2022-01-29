@@ -81,39 +81,48 @@ lose = False
 win = False
 running = True
 
+##setup = True
+##lines = pygame.sprite.RenderPlain()
+##for i in range(9):
+##    lines.add(pygame.Sprite())
+##
+##while setup:
+##    for event in pygame.event.get():
+##        if event.type == pygame.QUIT:
+##            setup = False
+##
+##    screen.fill(255, 255, 255)
+##
+##
+##    line[0].image = font.render("Pollution is a major problem today, and is only", True, (0,0,0))
+##    line[1].image = font.render("set to get worse as time goes on. Save the world", True, (0,0,0))
+##    line[2].image = font.render("by reducing pollution.", True, (0,0,0))
+##    line[3].image = font.render("", True, (0,0,0))
+##    line[4].image = font.render("Click on the Earth to earn money and reduce pollution.", True, (0,0,0))
+##    line[5].image = font.render("Spend money on ways to reduce pollution. Careful,", True, (0,0,0))
+##    line[6].image = font.render("the rate of pollution is rising. Stop companies from", True, (0,0,0))
+##    line[7].image = font.render("building pollution generating factories. Get to 0", True, (0,0,0))
+##    line[8].image = font.render("pollution to win. You lose if it reaches 10,000.", True, (0,0,0))
+##
+##    for i in range(9):
+##        lines[i].rect = line[i].image.get_rect()
+##        lines[i
+##
+##    rects = []
+##    pygame.display.update()
+
+
+
 while running == True:
     
     screen.fill((0, 191, 255))
 
 
-
-
-    if int(time.time()) - int(start_time) >= 30:
+    if int(time.time()) - int(start_time) >= 15:
         passive.pol = passive.pol * 2
         start_time = time.time()
-        if passive.pol > 700:
+        if passive.pol >= 700:
             passive.pol = 700
-
-    your_hand = False
-    position = pygame.mouse.get_pos()
-    if my_clicker.rect.collidepoint(position):
-        your_hand = True
-        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
-
-    for be in buttons:
-        if be.rect.collidepoint(position):
-            your_hand = True
-            pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
-
-    for pol in companies:
-        if pol.rect.collidepoint(position):
-            your_hand = True
-            pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
-
-    if your_hand == False:
-        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
-
-
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -154,20 +163,17 @@ while running == True:
 
             for c in clicked_companies:
                 c.click()
-
-    factory_end = time.time()
-    factory_time = int(factory_end) - int(factory_start)
-    if factory_time >= 40 and not(first_factory):
-        companies.add(company.Company(2, 500))
-
+            
+    if pollution <= 800 and not(first_factory):
+        companies.add(company.Company(2, 547))
         first_factory = True
-    if factory_time >= 80 and not(second_factory):
+    if pollution <= 500 and not(second_factory):
         companies.add(company.Company(52, 547))
         second_factory = True
-    if factory_time >= 120 and not(third_factory):
+    if pollution <= 200 and not(third_factory):
         companies.add(company.Company(102, 547))
         third_factory = True
-    if factory_time >= 160 and not(fourth_factory):
+    if money >= 20000 and not(fourth_factory):
         companies.add(company.Company(202, 547))
         fourth_factory = True
 
@@ -195,7 +201,7 @@ while running == True:
 
     passive_text = font.render("Passive Pollution: +" + str(passive.pol) + "/sec", True, (0,0,0))    
     pollution_text = font.render("Pollution: " + str(pollution), True, (0,0,0))
-    money_text = font.render("$" + str(money), True, (0,0 0))
+    money_text = font.render("$" + str(money), True, (0,0, 0))
 
 
     list_items = 0
