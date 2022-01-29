@@ -22,9 +22,13 @@ if __name__ != "__main__":
                 return None
         def get_progress(self):
             end = time.time()
-            house = (end - self.start)/3
+            house = (end - self.start)/10
             return house
         def click(self):
-            self.start = self.start + 1
+            end = time.time()
+            if self.start <= end:
+                self.start = self.start + 1
+            else:
+                self.start = end
 else:
     print("on the wall")
