@@ -42,5 +42,3 @@ while True:
     
     group.draw(screen)
     pygame.display.update()
-
-    print(pollution)
