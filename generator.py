@@ -3,14 +3,16 @@ if __name__ != "__main__":
     import time
 
     class Generator:
-        def __init__(self):
+        def __init__(self, num, pol):
             start = time.time()
+            self.pol = pol
+            self.num = num
         def add(self):
             end = time.time()
             house = int(end) - int(start)
-            if house >= 1:
+            if house >= self.num:
                 start = time.time()
-                return 1
+                return self.pol
             else:
                 return 0
 else:
