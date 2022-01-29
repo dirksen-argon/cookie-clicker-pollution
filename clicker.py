@@ -11,5 +11,6 @@ if __name__ != "__main__":
         def click(self):
             self.money = self.money + 1
             return -1
+        #heya
 else:
     print("99 bottles")
