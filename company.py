@@ -24,5 +24,7 @@ if __name__ != "__main__":
             end = time.time()
             house = (end - self.start)/3
             return house
+        def click(self):
+            self.start = self.start + 1
 else:
     print("on the wall")
