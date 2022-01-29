@@ -8,7 +8,7 @@ if __name__ != "__main__":
             super().__init__()
             self.start = time.time()
             self.image = pygame.image.load("factory.png")
-            self.image = pygame.transform.scale(self.image, (40, 40))
+            self.image = pygame.transform.scale(self.image, (94, 94))
             self.rect = self.image.get_rect()
             self.rect.topleft = (x, y)
         def tick(self):
