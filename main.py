@@ -31,7 +31,7 @@ generators = {"volunteer": 0, "volunteer group": 0, "recycle plant": 0, \
               "factory": 0}
 
 buttons = pygame.sprite.RenderPlain()
-v_button = button.Button("Volunteer $50 -1 pollution/sec", 50, -1, 1)
+v_button = button.Button("Volunteer $50 -1 pollution/sec", 1, -50, 1)
 v_g_button = button.Button("Volunteer Group $200 -5 pollution/sec", 200, -5, 1)
 r_p_button = button.Button("Recycle Plant $1000 -50 pollution/sec", 1000, -50, 1)
 
@@ -49,49 +49,40 @@ buttons.add(r_p_button)
 generator_list = []
 companies = pygame.sprite.RenderPlain()
 
-companies.add(company.Company(2, 547))
-
 start_time = time.time()
 
-while True:
+first_factory = False
+second_factory = False
+third_factory = False
+fourth_factory = False
+lose = False
+win = False
+running = True
 
+while running == True:
+    
     screen.fill((0, 191, 255))
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
-        elif event.type == pygame.MOUSEBUTTONUP:
-            pos = pygame.mouse.get_pos()
+    if pollution <= 800 and not(first_factory):
+        companies.add(company.Company(2, 547))
+        first_factory = True
+    if pollution <= 500 and not(second_factory):
+        companies.add(company.Company(52, 547))
+        second_factory = True
+    if pollution <= 200 and not(third_factory):
+        companies.add(company.Company(102, 547))
+        third_factory = True
+    if money >= 20000 and not(fourth_factory):
+        companies.add(company.Company(202, 547))
+        fourth_factory = True
 
-            if my_clicker.rect.collidepoint(pos):
-                result = my_clicker.click()
-                pollution += result[0]
-                money += result[1]
+    if pollution >= 10000:
+        lose = True
+        break
 
-            clicked_buttons = [b for b in buttons if b.rect.collidepoint(pos)]
-
-            for b in clicked_buttons:
-                result = b.click(money)
-                money += result[0]
-                if isinstance(result[1], generator.Generator):
-                    generator_list.append(result[1])
-                    if b.pollution_modifier == -1:
-                        generators["volunteer"] += 1
-                    elif b.pollution_modifier == -5:
-                        generators["volunteer group"] += 1
-                    elif b.pollution_modifier == -50:
-                        generators["recycle plant"] += 1
-                    elif b.pollution_modifier == 10:
-                        generators["factory"] += 1
-
-
-            clicked_companies = [c for c in companies if c.rect.collidepoint(pos)]
-
-            for c in clicked_companies:
-                c.click()
-            
-
+    if pollution <= 0:
+        win = True
+        break
 
     for comp in companies:
         result = comp.tick()
@@ -129,3 +120,59 @@ while True:
     buttons.draw(screen)
     group.draw(screen)
     pygame.display.update()
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        elif event.type == pygame.MOUSEBUTTONUP:
+            pos = pygame.mouse.get_pos()
+
+            if my_clicker.rect.collidepoint(pos):
+                result = my_clicker.click()
+                pollution += result[0]
+                money += result[1]
+
+            clicked_buttons = [b for b in buttons if b.rect.collidepoint(pos)]
+
+            for b in clicked_buttons:
+                result = b.click(money)
+                money += result[0]
+                if isinstance(result[1], generator.Generator):
+                    generator_list.append(result[1])
+                    if b.pollution_modifier == -1:
+                        generators["volunteer"] += 1
+                    elif b.pollution_modifier == -5:
+                        generators["volunteer group"] += 1
+                    elif b.pollution_modifier == -50:
+                        generators["recycle plant"] += 1
+                    elif b.pollution_modifier == 10:
+                        generators["factory"] += 1
+
+
+            clicked_companies = [c for c in companies if c.rect.collidepoint(pos)]
+
+            for c in clicked_companies:
+                c.click()
+while lose == True:
+    screen.fill((255, 255, 255))
+    font = pygame.font.Font(None, 55)
+    image = font.render("Game Over!", True, (0, 0, 0))
+    text = image.get_rect()
+    text.center = screen.get_rect().center
+    screen.blit(image, text)
+    pygame.display.flip()
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            lose = False
+while win == True:
+    screen.fill((0, 255, 127))
+    font = pygame.font.Font(None, 55)
+    image = font.render("You Won!", True, (42, 79, 138))
+    text = image.get_rect()
+    text.center = screen.get_rect().center
+    screen.blit(image, text)
+    pygame.display.flip()
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            win = False
+pygame.quit()
