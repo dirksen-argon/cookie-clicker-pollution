@@ -86,9 +86,30 @@ while running == True:
     screen.fill((0, 191, 255))
 
 
+
     if int(time.time()) - int(start_time) >= 10:
         passive.pol = passive.pol * 2
         start_time = time.time()
+
+    your_hand = False
+    position = pygame.mouse.get_pos()
+    if my_clicker.rect.collidepoint(position):
+        your_hand = True
+        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+
+    for be in buttons:
+        if be.rect.collidepoint(position):
+            your_hand = True
+            pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+
+    for pol in companies:
+        if pol.rect.collidepoint(position):
+            your_hand = True
+            pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+
+    if your_hand == False:
+        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
+
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -238,6 +259,7 @@ while running == True:
 
 
 while lose == True:
+    pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
     screen.fill((255, 255, 255))
     font = pygame.font.Font(None, 55)
     image = font.render("Game Over!", True, (0, 0, 0))
@@ -249,6 +271,7 @@ while lose == True:
         if event.type == pygame.QUIT:
             lose = False
 while win == True:
+    pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
     screen.fill((0, 255, 127))
     font = pygame.font.Font(None, 55)
     image = font.render("You Won!", True, (42, 79, 138))
