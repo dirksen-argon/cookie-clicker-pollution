@@ -16,7 +16,7 @@ if __name__ != "__main__":
             house = int(end) - int(self.start)
             if house >= 3:
                 self.start = time.time()
-                factory = generator.Generator(1)
+                factory = generator.Generator(1, 100)
                 return factory
             else:
                 return None
