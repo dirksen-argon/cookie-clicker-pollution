@@ -71,7 +71,7 @@ companies = pygame.sprite.RenderPlain()
 passive = generator.Generator(1, 1)
 generator_list.append(passive)
 
-start_time = time.time()
+
 
 first_factory = False
 second_factory = False
@@ -81,36 +81,45 @@ lose = False
 win = False
 running = True
 
-##setup = True
-##lines = pygame.sprite.RenderPlain()
-##for i in range(9):
-##    lines.add(pygame.Sprite())
-##
-##while setup:
-##    for event in pygame.event.get():
-##        if event.type == pygame.QUIT:
-##            setup = False
-##
-##    screen.fill(255, 255, 255)
-##
-##
-##    line[0].image = font.render("Pollution is a major problem today, and is only", True, (0,0,0))
-##    line[1].image = font.render("set to get worse as time goes on. Save the world", True, (0,0,0))
-##    line[2].image = font.render("by reducing pollution.", True, (0,0,0))
-##    line[3].image = font.render("", True, (0,0,0))
-##    line[4].image = font.render("Click on the Earth to earn money and reduce pollution.", True, (0,0,0))
-##    line[5].image = font.render("Spend money on ways to reduce pollution. Careful,", True, (0,0,0))
-##    line[6].image = font.render("the rate of pollution is rising. Stop companies from", True, (0,0,0))
-##    line[7].image = font.render("building pollution generating factories. Get to 0", True, (0,0,0))
-##    line[8].image = font.render("pollution to win. You lose if it reaches 10,000.", True, (0,0,0))
-##
-##    for i in range(9):
-##        lines[i].rect = line[i].image.get_rect()
-##        lines[i
-##
-##    rects = []
-##    pygame.display.update()
 
+setup = True
+lines = []
+line_group = pygame.sprite.RenderPlain()
+for i in range(11):
+    lines.append(pygame.sprite.Sprite(line_group))
+
+while setup:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            setup = False
+            running = False
+        if event.type == pygame.MOUSEBUTTONUP:
+            setup = False
+
+    screen.fill((255, 255, 255))
+
+
+    lines[0].image = font.render("Pollution is a major problem today, and is only", True, (0,0,0))
+    lines[1].image = font.render("set to get worse as time goes on. Save the world", True, (0,0,0))
+    lines[2].image = font.render("by reducing pollution.", True, (0,0,0))
+    lines[3].image = font.render("", True, (0,0,0))
+    lines[4].image = font.render("Click on the Earth to earn money and reduce pollution.", True, (0,0,0))
+    lines[5].image = font.render("Spend money on ways to reduce pollution. Careful,", True, (0,0,0))
+    lines[6].image = font.render("the rate of pollution is rising. Stop companies from", True, (0,0,0))
+    lines[7].image = font.render("building pollution generating factories. Get to 0", True, (0,0,0))
+    lines[8].image = font.render("pollution to win. You lose if it reaches 10,000.", True, (0,0,0))
+    lines[9].image = font.render("", True, (0,0,0))
+    lines[10].image = font.render("Click anywhere to start", True, (0,0,0))
+    y = 200
+    for i in range(11):
+        lines[i].rect = lines[i].image.get_rect()
+        lines[i].rect.center = (screen.get_rect().center[0], y)
+        y += 16
+
+    line_group.draw(screen)
+    pygame.display.update()
+
+start_time = time.time()
 factory_start = time.time()
 
 while running == True:
