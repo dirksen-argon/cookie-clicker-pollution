@@ -47,11 +47,15 @@ buttons.add(v_g_button)
 buttons.add(r_p_button)
 
 generator_list = []
-companies = []
+companies = pygame.sprite.RenderPlain()
+
+companies.add(company.Company(2, 547))
 
 start_time = time.time()
 
 while True:
+
+    screen.fill((0, 191, 255))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -80,18 +84,21 @@ while True:
                         generators["recycle plant"] += 1
                     elif b.pollution_modifier == 10:
                         generators["factory"] += 1
+
+
+            clicked_companies = [c for c in companies if c.rect.collidepoint(pos)]
+
+            for c in clicked_companies:
+                c.click()
             
 
-    if int(time.time()) - int(start_time) >= 5:
-        start_time = time.time()
-        new_company = company.Company()
-        companies.append(new_company)
 
     for comp in companies:
         result = comp.tick()
         if isinstance(result, generator.Generator):
             generators["factory"] += 1
             generator_list.append(result)
+        pygame.draw.rect(screen, (0,0,0), pygame.Rect(comp.rect.left, comp.rect.bottom + 1, comp.get_progress()*comp.rect.width, 10))
         
 
     for gen in generator_list:
@@ -99,7 +106,7 @@ while True:
         pollution += result[0]
         money += result[1]
 
-    screen.fill((0, 191, 255))
+    
     pollution_text = font.render("Pollution: " + str(pollution), True, (0,0,0))
     pollution_text_rect = pygame.Rect(0,400, 100, 100)
     money_text = font.render("$" + str(money), True, (0,0,0))
@@ -118,6 +125,7 @@ while True:
     screen.blit(pollution_text, (0, 400))
     screen.blit(money_text, (0, 500))
 
+    companies.draw(screen)
     buttons.draw(screen)
     group.draw(screen)
     pygame.display.update()
