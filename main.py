@@ -81,6 +81,7 @@ lose = False
 win = False
 running = True
 
+
 setup = True
 lines = []
 line_group = pygame.sprite.RenderPlain()
@@ -120,40 +121,19 @@ while setup:
 
 start_time = time.time()
 factory_start = time.time()
+hint_time = time.time()
+hint_mode = 0
 
 while running == True:
     
     screen.fill((0, 191, 255))
 
 
-
-
-    if int(time.time()) - int(start_time) >= 30:
+    if int(time.time()) - int(start_time) >= 15:
         passive.pol = passive.pol * 2
         start_time = time.time()
-        if passive.pol > 700:
+        if passive.pol >= 700:
             passive.pol = 700
-
-    your_hand = False
-    position = pygame.mouse.get_pos()
-    if my_clicker.rect.collidepoint(position):
-        your_hand = True
-        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
-
-    for be in buttons:
-        if be.rect.collidepoint(position):
-            your_hand = True
-            pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
-
-    for pol in companies:
-        if pol.rect.collidepoint(position):
-            your_hand = True
-            pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
-
-    if your_hand == False:
-        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
-
-
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -199,16 +179,15 @@ while running == True:
     factory_time = int(factory_end) - int(factory_start)
     if factory_time >= 40 and not(first_factory):
         companies.add(company.Company(2, 500))
-
         first_factory = True
     if factory_time >= 80 and not(second_factory):
-        companies.add(company.Company(52, 547))
+        companies.add(company.Company(102, 500))
         second_factory = True
     if factory_time >= 120 and not(third_factory):
-        companies.add(company.Company(102, 547))
+        companies.add(company.Company(202, 500))
         third_factory = True
     if factory_time >= 160 and not(fourth_factory):
-        companies.add(company.Company(202, 547))
+        companies.add(company.Company(302, 500))
         fourth_factory = True
 
     if pollution >= 10000:
@@ -226,6 +205,24 @@ while running == True:
             generator_list.append(result)
         pygame.draw.rect(screen, (0,0,0), pygame.Rect(comp.rect.left, comp.rect.bottom + 1, comp.get_progress()*comp.rect.width, 10))
         
+    your_hand = False
+    position = pygame.mouse.get_pos()
+    if my_clicker.rect.collidepoint(position):
+        your_hand = True
+        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+
+    for be in buttons:
+        if be.rect.collidepoint(position):
+            your_hand = True
+            pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+
+    for pol in companies:
+        if pol.rect.collidepoint(position):
+            your_hand = True
+            pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+
+    if your_hand == False:
+        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
 
     for gen in generator_list:
         result = gen.add()
@@ -282,7 +279,7 @@ while running == True:
     else:
         group.remove(recycle_plant_count)
     if generators["factory"] > 0:
-        factory_count.image = font.render("Factories: " + str(generators["factory"]), True, (0,0,0))
+        factory_count.image = font.render("Factories (+100 pollution/sec): " + str(generators["factory"]), True, (0,0,0))
         factory_count.rect = pygame.Rect(0, list_items*16 + 2, 1, 1)
         list_items += 1
         group.add(factory_count)
@@ -303,13 +300,55 @@ while running == True:
     screen.blit(pollution_text, pollution_text_rect)
     screen.blit(money_text, money_text_rect)
 
+    if time.time() - hint_time <= 0.25:
+        hint_color = (255, 255, 255)
+    else:
+        hint_color = (0,0,0)
+        
+    bottom_text = pygame.sprite.Sprite(group)
+    bottom_text.image = pygame.Surface((screen.get_rect().width, 36))
+    bottom_text.rect = bottom_text.image.get_rect()
+    bottom_text.rect.topleft = (0, screen.get_rect().bottom - 36)
+    bottom_text.image.fill(hint_color)
+
+    
+
     companies.draw(screen)
     buttons.draw(screen)
     group.draw(screen)
+
+    
+    
+    if pollution >= 5000:
+        if hint_mode != 4:
+            hint_time = time.time()
+            hint_mode = 4
+        text_1 = font.render("Hint: If you reach 10,000 pollution, you lose", True, (255, 255, 255))
+    elif first_factory:
+        if hint_mode != 3:
+            hint_time = time.time()
+            hint_mode = 3
+        text_1 = font.render("Hint: Click on the company to prevent it from building harmful factories", True, (255, 255, 255))
+    elif passive.pol > 1:
+        if hint_mode != 2:
+            hint_time = time.time()
+            hint_mode = 2
+        text_1 = font.render("Hint: The passive pollution rate will rise over time", True, (255, 255, 255))
+    elif money >= 10:
+        if hint_mode != 1:
+            hint_time = time.time()
+            hint_mode = 1
+        text_1 = font.render("Hint: You can spend money using the buttons in the top right", True, (255, 255, 255))
+    else:
+        hint_mode = 0
+        text_1 = font.render("Hint: Click the Earth to reduce pollution and earn money", True, (255, 255, 255))
+
+    screen.blit(text_1, (bottom_text.rect.x + 1, bottom_text.rect.y + 1))
     pygame.display.update()
 
 
 while lose == True:
+    my_hand = False
     screen.fill((255, 255, 255))
     font = pygame.font.Font(None, 55)
     image = font.render("Game Over!", True, (0, 0, 0))
@@ -321,6 +360,7 @@ while lose == True:
         if event.type == pygame.QUIT:
             lose = False
 while win == True:
+    my_hand = False
     screen.fill((0, 255, 127))
     font = pygame.font.Font(None, 55)
     image = font.render("You Won!", True, (42, 79, 138))
