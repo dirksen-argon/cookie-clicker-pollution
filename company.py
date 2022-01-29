@@ -26,7 +26,7 @@ if __name__ != "__main__":
             return house
         def click(self):
             end = time.time()
-            if self.start <= end:
+            if self.start + 1 <= end:
                 self.start = self.start + 1
             else:
                 self.start = end
