@@ -13,7 +13,7 @@ if __name__ != "__main__":
             self.image = pygame.transform.scale(self.image, (40, 40))
             self.rect = self.image.get_rect()
             self.rect.center = random.choice(location)
-        def click(self):
+        def tick(self):
             end = time.time()
             house = int(end) - int(self.start)
             if house >= 3:
