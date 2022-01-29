@@ -14,7 +14,7 @@ if __name__ != "__main__":
         def tick(self):
             end = time.time()
             house = int(end) - int(self.start)
-            if house >= 3:
+            if house >= 10:
                 self.start = time.time()
                 factory = generator.Generator(1, 100)
                 return factory
