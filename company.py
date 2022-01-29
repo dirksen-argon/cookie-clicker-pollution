@@ -12,13 +12,13 @@ if __name__ != "__main__":
             self.image = pygame.image.load("factory.png")
             self.image = pygame.transform.scale(self.image, (40, 40))
             self.rect = self.image.get_rect()
-            self.rect.center = random.choice(location)
+            self.rect.center = random.choice(Company.location)
         def tick(self):
             end = time.time()
             house = int(end) - int(self.start)
             if house >= 3:
-                start = time.time()
-                factory = generator.Generator()
+                self.start = time.time()
+                factory = generator.Generator(1)
                 return factory
             else:
                 return None
