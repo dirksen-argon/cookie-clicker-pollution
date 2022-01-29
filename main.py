@@ -13,6 +13,7 @@ my_clicker = clicker.Clicker()
 group.add(my_clicker)
 
 pollution = 0
+money = 0
 
 font = pygame.font.Font(None, 16)
 
@@ -26,15 +27,17 @@ while True:
         elif event.type == pygame.MOUSEBUTTONUP:
             pos = pygame.mouse.get_pos()
 
-            clicked_sprites = [s for s in group if s.rect.collidepoint(pos)]
+            if my_clicker.rect.collidepoint(pos):
+                result = my_clicker.click()
+                pollution += result[0]
+                money += result[1]
 
-            for sprite in clicked_sprites:
-                pollution += sprite.click()
+            
 
-    screen.fill((100,100,100))
+    screen.fill((0, 191, 255))
     pollution_text = font.render("Pollution: " + str(pollution), True, (0,0,0))
     pollution_text_rect = pygame.Rect(0,400, 100, 100)
-    money_text = font.render("$" + str(my_clicker.money), True, (0,0,0))
+    money_text = font.render("$" + str(money), True, (0,0,0))
     money_text_rect = pygame.Rect(0, 500, 100, 100)
     
     screen.blit(pollution_text, (0, 400))
