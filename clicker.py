@@ -6,7 +6,7 @@ if __name__ != "__main__":
             super().__init__()
             self.image = pygame.image.load("earth.png")
             self.image = pygame.transform.scale(self.image, (200, 200))
-            self.rect = pygame.Rect((0,0), (100,200))
+            self.rect = slef.image.get_rect()
             self.rect.center = (50, 100)
         def click(self):
             return -1, 1
