@@ -91,7 +91,7 @@ while True:
         result = comp.tick()
         if isinstance(result, generator.Generator):
             generators["factory"] += 1
-            generator_list.append(generator.Generator(1, 100))
+            generator_list.append(result)
         
 
     for gen in generator_list:
