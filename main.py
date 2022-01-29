@@ -89,9 +89,11 @@ while running == True:
 
 
 
-    if int(time.time()) - int(start_time) >= 10:
+    if int(time.time()) - int(start_time) >= 30:
         passive.pol = passive.pol * 2
         start_time = time.time()
+        if passive.pol > 700:
+            passive.pol = 700
 
     your_hand = False
     position = pygame.mouse.get_pos()
@@ -152,7 +154,10 @@ while running == True:
 
             for c in clicked_companies:
                 c.click()
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
     factory_end = time.time()
     factory_time = int(factory_end) - int(factory_start)
     if factory_time >= 40 and not(first_factory):
