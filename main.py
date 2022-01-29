@@ -20,7 +20,7 @@ group.add(my_clicker)
 pollution = 1000
 money = 0
 
-
+click_sound = pygame.mixer.Sound("click.mp3")
 
 font = pygame.font.Font(None, 16)
 
@@ -146,6 +146,7 @@ while running == True:
                 result = my_clicker.click()
                 pollution += result[0]
                 money += result[1]
+                click_sound.play()
 
             clicked_buttons = [b for b in buttons if b.rect.collidepoint(pos)]
 

@@ -10,6 +10,7 @@ if __name__ != "__main__":
             self.image = pygame.image.load("factory.png")
             self.image = pygame.transform.scale(self.image, (40, 40))
             self.rect = self.image.get_rect()
+            self.sound = pygame.mixer.Sound("factory_built.mp3")
             self.rect.topleft = (x, y)
         def tick(self):
             end = time.time()
@@ -17,6 +18,7 @@ if __name__ != "__main__":
             if house >= 10:
                 self.start = time.time()
                 factory = generator.Generator(1, 100)
+                self.sound.play()
                 return factory
             else:
                 return None
