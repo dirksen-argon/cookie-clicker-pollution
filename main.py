@@ -81,8 +81,6 @@ lose = False
 win = False
 running = True
 
-factory_start = time.time()
-
 while running == True:
     
     screen.fill((0, 191, 255))
@@ -152,20 +150,18 @@ while running == True:
 
             for c in clicked_companies:
                 c.click()
-
-    factory_end = time.time()
-    factory_time = int(factory_end) - int(factory_start)
-    if factory_time >= 40 and not(first_factory):
-        companies.add(company.Company(2, 500))
+            
+    if pollution <= 800 and not(first_factory):
+        companies.add(company.Company(2, 547))
         first_factory = True
-    if factory_time >= 80 and not(second_factory):
-        companies.add(company.Company(102, 500))
+    if pollution <= 500 and not(second_factory):
+        companies.add(company.Company(52, 547))
         second_factory = True
-    if factory_time >= 120 and not(third_factory):
-        companies.add(company.Company(202, 500))
+    if pollution <= 200 and not(third_factory):
+        companies.add(company.Company(102, 547))
         third_factory = True
-    if factory_time >= 160 and not(fourth_factory):
-        companies.add(company.Company(302, 500))
+    if money >= 20000 and not(fourth_factory):
+        companies.add(company.Company(202, 547))
         fourth_factory = True
 
     if pollution >= 10000:
