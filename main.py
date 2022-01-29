@@ -3,6 +3,9 @@ import sys
 import clicker
 import generator
 import button
+import random
+import time
+import company
 
 pygame.init()
 
@@ -14,7 +17,7 @@ group = pygame.sprite.RenderPlain()
 my_clicker = clicker.Clicker()
 group.add(my_clicker)
 
-pollution = 0
+pollution = 1000
 money = 0
 
 font = pygame.font.Font(None, 16)
@@ -44,6 +47,9 @@ buttons.add(v_g_button)
 buttons.add(r_p_button)
 
 generator_list = []
+companies = []
+
+start_time = time.time()
 
 while True:
 
@@ -75,6 +81,18 @@ while True:
                     elif b.pollution_modifier == 10:
                         generators["factory"] += 1
             
+
+    if int(time.time()) - int(start_time) >= 5:
+        start_time = time.time()
+        new_company = company.Company()
+        companies.append(new_company)
+
+    for comp in companies:
+        result = comp.tick()
+        if isinstance(result, generator.Generator):
+            generators["factory"] += 1
+            generator_list.append(generator.Generator(1, 100))
+        
 
     for gen in generator_list:
         pollution += gen.add()
