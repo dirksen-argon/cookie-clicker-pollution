@@ -13,6 +13,8 @@ size = width, height = 400, 600
 
 screen = pygame.display.set_mode(size)
 
+#music = pygame.mixer.Sound("pollution.wav")
+
 group = pygame.sprite.RenderPlain()
 my_clicker = clicker.Clicker(screen)
 group.add(my_clicker)
@@ -22,7 +24,7 @@ money = 0
 
 click_sound = pygame.mixer.Sound("click.mp3")
 
-font = pygame.font.Font(None, 16)
+font = pygame.font.Font(None, 20)
 
 volunteer_count = pygame.sprite.Sprite()
 volunteer_group_count = pygame.sprite.Sprite()
@@ -31,6 +33,7 @@ gift_shop_count = pygame.sprite.Sprite()
 donation_count = pygame.sprite.Sprite()
 grant_count = pygame.sprite.Sprite()
 factory_count = pygame.sprite.Sprite()
+factory_count_2 = pygame.sprite.Sprite()
 
 generators = {"volunteer": 0, "volunteer group": 0, "recycle plant": 0, \
               "gift shop": 0, "donator": 0, "grant": 0, "factory": 0}
@@ -54,9 +57,9 @@ g_button.rect.right = screen.get_rect().right - 2
 v_button.rect.top = 2
 v_g_button.rect.top = 18
 r_p_button.rect.top = 34
-g_s_button.rect.top = 50
-d_button.rect.top = 66
-g_button.rect.top = 82
+g_s_button.rect.top = 66
+d_button.rect.top = 82
+g_button.rect.top = 98
 
 buttons.add(v_button)
 buttons.add(v_g_button)
@@ -179,16 +182,16 @@ while running == True:
     factory_end = time.time()
     factory_time = int(factory_end) - int(factory_start)
     if factory_time >= 40 and not(first_factory):
-        companies.add(company.Company(2, 500))
+        companies.add(company.Company(2, 456))
         first_factory = True
     if factory_time >= 80 and not(second_factory):
-        companies.add(company.Company(102, 500))
+        companies.add(company.Company(102, 456))
         second_factory = True
     if factory_time >= 120 and not(third_factory):
-        companies.add(company.Company(202, 500))
+        companies.add(company.Company(202, 456))
         third_factory = True
     if factory_time >= 160 and not(fourth_factory):
-        companies.add(company.Company(302, 500))
+        companies.add(company.Company(302, 456))
         fourth_factory = True
 
     if pollution >= 10000:
@@ -280,12 +283,16 @@ while running == True:
     else:
         group.remove(recycle_plant_count)
     if generators["factory"] > 0:
-        factory_count.image = font.render("Factories (+100 pollution/sec): " + str(generators["factory"]), True, (0,0,0))
+        factory_count.image = font.render("Factories: " + str(generators["factory"]), True, (0,0,0))
         factory_count.rect = pygame.Rect(0, list_items*16 + 2, 1, 1)
-        list_items += 1
+        factory_count_2.image = font.render("    (+100 pollution/sec)", True, (0,0,0))
+        factory_count_2.rect = pygame.Rect(0, (list_items + 1)*16 + 2, 1, 1)
+        list_items += 2
         group.add(factory_count)
+        group.add(factory_count_2)
     else:
         group.remove(factory_count)
+        group.remove(factory_count_2)
 
     passive_text_rect = passive_text.get_rect()
     pollution_text_rect = pollution_text.get_rect()
@@ -293,9 +300,9 @@ while running == True:
     passive_text_rect.right = screen.get_rect().right - 2
     pollution_text_rect.right = screen.get_rect().right - 2
     money_text_rect.right = screen.get_rect().right - 2
-    passive_text_rect.top = 114
-    pollution_text_rect.top = 146
-    money_text_rect.top = 162
+    passive_text_rect.top = 130
+    pollution_text_rect.top = 162
+    money_text_rect.top = 178
 
     screen.blit(passive_text, passive_text_rect)
     screen.blit(pollution_text, pollution_text_rect)
