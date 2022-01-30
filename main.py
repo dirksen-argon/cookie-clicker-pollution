@@ -13,7 +13,9 @@ size = width, height = 400, 600
 
 screen = pygame.display.set_mode(size)
 
-#music = pygame.mixer.Sound("pollution.wav")
+pygame.mixer.music.load("Pollution.wav")
+pygame.mixer.music.play(-1)
+pygame.mixer.music.set_volume(0.3)
 
 group = pygame.sprite.RenderPlain()
 my_clicker = clicker.Clicker(screen)
