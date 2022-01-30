@@ -356,7 +356,7 @@ while running == True:
 
 
 while lose == True:
-    my_hand = False
+    pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
     screen.fill((255, 255, 255))
     font = pygame.font.Font(None, 55)
     image = font.render("Game Over!", True, (0, 0, 0))
@@ -368,7 +368,7 @@ while lose == True:
         if event.type == pygame.QUIT:
             lose = False
 while win == True:
-    my_hand = False
+    pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
     screen.fill((0, 255, 127))
     font = pygame.font.Font(None, 55)
     image = font.render("You Won!", True, (42, 79, 138))
