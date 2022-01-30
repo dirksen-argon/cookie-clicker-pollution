@@ -260,12 +260,15 @@ while in_program:
             win = True
             break
 
+        # handle companies
         for comp in companies:
-            result = comp.tick()
+            result = comp.tick()    # check if company makes factory
+
+            # if factory made, add as generator
             if isinstance(result, generator.Generator):
-                generators["factory"] += 1
-                generator_list.append(result)
-            pygame.draw.rect(screen, (0,0,0), pygame.Rect(comp.rect.left, comp.rect.bottom + 1, comp.get_progress()*comp.rect.width, 10))
+                generators["factory"] += 1      # add to count
+                generator_list.append(result)   # add to list
+            pygame.draw.rect(screen, (0,0,0), pygame.Rect(comp.rect.left, comp.rect.bottom + 1, comp.get_progress()*comp.rect.width, 10))   # draw progress bar
 
         # Skip if and for statements if the player isn't hovering over any item    
         your_hand = False
