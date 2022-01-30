@@ -384,6 +384,11 @@ while in_program:
         screen.blit(pollution_text, pollution_text_rect)    # display pollution counter
         screen.blit(money_text, money_text_rect)            # display money counter
 
+        # draw sprites to screen
+        companies.draw(screen)  # draw companies
+        buttons.draw(screen)    # draw buttons
+        group.draw(screen)      # draw misc
+
         # show hints
         # if hint is new, flash it as white to get user's attention
         if time.time() - hint_time <= 0.1:
@@ -437,11 +442,6 @@ while in_program:
         # display hint text
         screen.blit(text_1, (bottom_text.rect.x + 1, bottom_text.rect.y + 1))   # display hint text line 1
         screen.blit(text_2, (bottom_text.rect.x + 1, bottom_text.rect.y + 17))  # display hint text line 2
-
-        # draw sprites to screen
-        companies.draw(screen)  # draw companies
-        buttons.draw(screen)    # draw buttons
-        group.draw(screen)      # draw misc
 
         pygame.display.update() # display screen to user
 
