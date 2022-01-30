@@ -209,7 +209,7 @@ while in_program:
         if factory_time >= 160 and not(fourth_factory):     # After 160 seconds, create the fourth company once
             companies.add(company.Company(302, 456))        # Define location of company icon
             fourth_factory = True                           # Set flag true to prevent repeats
-
+            
         if pollution >= 10000:
             lose = True
             break
