@@ -18,9 +18,11 @@ if __name__ != "__main__":
             self.cost = cost
             self.time = time
             self.money = money
+            self.sound = pygame.mixer.Sound("purchase.mp3")
 
         def click(self, money):
             if self.cost <= money:
+                self.sound.play()
                 return -self.cost, generator.Generator(self.time, self.pollution_modifier, self.money)
             else:
                 return 0, None

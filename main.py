@@ -6,6 +6,7 @@ import button
 import random
 import time
 import company
+import colour
 
 pygame.init()
 
@@ -15,7 +16,7 @@ screen = pygame.display.set_mode(size)
 
 pygame.mixer.music.load("Pollution.wav")
 pygame.mixer.music.play(-1)
-pygame.mixer.music.set_volume(0.3)
+pygame.mixer.music.set_volume(0.2)
 
 group = pygame.sprite.RenderPlain()
 my_clicker = clicker.Clicker(screen)
@@ -23,6 +24,8 @@ group.add(my_clicker)
 
 pollution = 1000
 money = 0
+
+background = pygame.image.load("background.png")
 
 click_sound = pygame.mixer.Sound("click.mp3")
 
@@ -90,7 +93,7 @@ running = True
 setup = True
 lines = []
 line_group = pygame.sprite.RenderPlain()
-for i in range(11):
+for i in range(22):
     lines.append(pygame.sprite.Sprite(line_group))
 
 while setup:
@@ -115,8 +118,11 @@ while setup:
     lines[8].image = font.render("pollution to win. You lose if it reaches 10,000.", True, (0,0,0))
     lines[9].image = font.render("", True, (0,0,0))
     lines[10].image = font.render("Click anywhere to start", True, (0,0,0))
+    for i in range(11, 21):
+        lines[i].image = font.render("", True, (0,0,0))
+    lines[21].image = font.render("sound effects from ZapSplat.com", True, (100,100,100))
     y = 200
-    for i in range(11):
+    for i in range(22):
         lines[i].rect = lines[i].image.get_rect()
         lines[i].rect.center = (screen.get_rect().center[0], y)
         y += 16
@@ -131,7 +137,7 @@ hint_mode = 0
 
 while running == True:
     
-    screen.fill((0, 191, 255))
+    screen.blit(background, (0, 0))
 
 
     if int(time.time()) - int(start_time) >= 15:
@@ -334,26 +340,32 @@ while running == True:
             hint_time = time.time()
             hint_mode = 4
         text_1 = font.render("Hint: If you reach 10,000 pollution, you lose", True, (255, 255, 255))
+        text_2 = font.render("", True, (255, 255, 255))
     elif first_factory:
         if hint_mode != 3:
             hint_time = time.time()
             hint_mode = 3
-        text_1 = font.render("Hint: Click on the company to prevent it from building harmful factories", True, (255, 255, 255))
+        text_1 = font.render("Hint: Click on the company to prevent it from", True, (255,255,255))
+        text_2 = font.render("building harmful factories", True, (255, 255, 255))
     elif passive.pol > 1:
         if hint_mode != 2:
             hint_time = time.time()
             hint_mode = 2
         text_1 = font.render("Hint: The passive pollution rate will rise over time", True, (255, 255, 255))
+        text_2 = font.render("", True, (255, 255, 255))
     elif money >= 10:
         if hint_mode != 1:
             hint_time = time.time()
             hint_mode = 1
         text_1 = font.render("Hint: You can spend money using the buttons in the top right", True, (255, 255, 255))
+        text_2 = font.render("", True, (255, 255, 255))
     else:
         hint_mode = 0
         text_1 = font.render("Hint: Click the Earth to reduce pollution and earn money", True, (255, 255, 255))
-
+        text_2 = font.render("", True, (255, 255, 255))
+        
     screen.blit(text_1, (bottom_text.rect.x + 1, bottom_text.rect.y + 1))
+    screen.blit(text_2, (bottom_text.rect.x + 1, bottom_text.rect.y + 17))
     pygame.display.update()
 
 
