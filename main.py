@@ -82,7 +82,7 @@ while in_program:
 
 
 
-    first_factory = False
+    first_factory = False   
     second_factory = False
     third_factory = False
     fourth_factory = False
@@ -190,20 +190,25 @@ while in_program:
                 for c in clicked_companies:
                     c.click()
 
-        factory_end = time.time()
-        factory_time = int(factory_end) - int(factory_start)
-        if factory_time >= 40 and not(first_factory):
-            companies.add(company.Company(2, 456))
-            first_factory = True
-        if factory_time >= 80 and not(second_factory):
-            companies.add(company.Company(102, 456))
-            second_factory = True
-        if factory_time >= 120 and not(third_factory):
-            companies.add(company.Company(202, 456))
-            third_factory = True
-        if factory_time >= 160 and not(fourth_factory):
-            companies.add(company.Company(302, 456))
-            fourth_factory = True
+        # Define when each company will start attempting to create factories
+        factory_end = time.time()                           # End factory timer
+        factory_time = int(factory_end) - int(factory_start)# Calculate amount of time passed
+        
+        if factory_time >= 40 and not(first_factory):       # After 40 seconds, create the first company once
+            companies.add(company.Company(2, 456))          # Define location of the company icon
+            first_factory = True                            # Set flag true to prevent repeating first factory
+            
+        if factory_time >= 80 and not(second_factory):      # After 80 seconds, create the second company once
+            companies.add(company.Company(102, 456))        # Define location of the company icon
+            second_factory = True                           # Set flag true to prevent repeats
+            
+        if factory_time >= 120 and not(third_factory):      # After 120 seconds, create the third company once
+            companies.add(company.Company(202, 456))        # Define location of company icon
+            third_factory = True                            # Set flag true to prevent repeats
+            
+        if factory_time >= 160 and not(fourth_factory):     # After 160 seconds, create the fourth company once
+            companies.add(company.Company(302, 456))        # Define location of company icon
+            fourth_factory = True                           # Set flag true to prevent repeats
 
         if pollution >= 10000:
             lose = True
