@@ -14,6 +14,10 @@ while in_program:
     size = width, height = 400, 600
 
     screen = pygame.display.set_mode(size)
+    pygame.display.set_caption("Pollution Clicker")
+
+    icon = pygame.image.load("earth.png")
+    pygame.display.set_icon(icon)
 
     pygame.mixer.music.load("Pollution.wav")
     pygame.mixer.music.play(-1)
