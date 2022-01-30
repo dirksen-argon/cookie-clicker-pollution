@@ -371,32 +371,81 @@ while in_program:
         screen.blit(text_2, (bottom_text.rect.x + 1, bottom_text.rect.y + 17))
         pygame.display.update()
 
-
+    buffer_start = time.time()
+    
     while lose == True:
+        buffer_end = time.time()
+        buffer = int(buffer_end) - int(buffer_start)
+        
         pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
         screen.fill((255, 255, 255))
-        font = pygame.font.Font(None, 55)
-        image = font.render("Game Over!", True, (0, 0, 0))
+        big_font = pygame.font.Font(None, 55)
+        image = big_font.render("Game Over!", True, (0, 0, 0))
         text = image.get_rect()
         text.center = screen.get_rect().center
         screen.blit(image, text)
+
+        image = font.render("If nothing is done soon, the", \
+                            True, (0, 0, 0))
+        text = image.get_rect()
+        text.center = (200, 490)
+        screen.blit(image, text)
+
+        image = font.render("effects of pollution will be out of control", \
+                            True, (0, 0, 0))
+        text = image.get_rect()
+        text.center = (200, 510)
+        screen.blit(image, text)
+
+        image = font.render("click to try again", True, (0, 0, 0))
+        text = image.get_rect()
+        text.center = (200, 570)
+        screen.blit(image, text)
+
         pygame.display.flip()
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 lose = False
                 in_program = False
+            elif event.type == pygame.MOUSEBUTTONUP and buffer >= 2:
+                lose = False
                 
     while win == True:
+        buffer_end = time.time()
+        buffer = int(buffer_end) - int(buffer_start)
+        
         pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
         screen.fill((0, 255, 127))
-        font = pygame.font.Font(None, 55)
-        image = font.render("You Won!", True, (42, 79, 138))
+        big_font = pygame.font.Font(None, 55)
+        image = big_font.render("You Won!", True, (42, 79, 138))
         text = image.get_rect()
         text.center = screen.get_rect().center
         screen.blit(image, text)
+
+        image = font.render("If we act fast, we can reverse the", \
+                            True, (42, 79, 138))
+        text = image.get_rect()
+        text.center = (200, 490)
+        screen.blit(image, text)
+
+        image = font.render("reverse the effects of pollution across the globe", \
+                            True, (42, 79, 138))
+        text = image.get_rect()
+        text.center = (200, 510)
+        screen.blit(image, text)
+
+        image = font.render("click to play again", True, (42, 79, 138))
+        text = image.get_rect()
+        text.center = (200, 570)
+        screen.blit(image, text)
+        
         pygame.display.flip()
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 win = False
                 in_program = False
+            elif event.type == pygame.MOUSEBUTTONUP and buffer >= 2:
+                win = False
     pygame.quit()
