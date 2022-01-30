@@ -360,24 +360,50 @@ while running == True:
 while lose == True:
     pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
     screen.fill((255, 255, 255))
-    font = pygame.font.Font(None, 55)
-    image = font.render("Game Over!", True, (0, 0, 0))
+    big_font = pygame.font.Font(None, 55)
+    image = big_font.render("Game Over!", True, (0, 0, 0))
     text = image.get_rect()
     text.center = screen.get_rect().center
     screen.blit(image, text)
+
+    image = font.render("If nothing is done soon, the", \
+                        True, (0, 0, 0))
+    text = image.get_rect()
+    text.center = (200, 490)
+    screen.blit(image, text)
+
+    image = font.render("effects of pollution will be out of control", \
+                        True, (0, 0, 0))
+    text = image.get_rect()
+    text.center = (200, 510)
+    screen.blit(image, text)
     pygame.display.flip()
+    
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             lose = False
 while win == True:
     pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
     screen.fill((0, 255, 127))
-    font = pygame.font.Font(None, 55)
-    image = font.render("You Won!", True, (42, 79, 138))
+    big_font = pygame.font.Font(None, 55)
+    image = big_font.render("You Won!", True, (42, 79, 138))
     text = image.get_rect()
     text.center = screen.get_rect().center
     screen.blit(image, text)
+
+    image = font.render("If we act fast, we can reverse the", \
+                        True, (42, 79, 138))
+    text = image.get_rect()
+    text.center = (200, 490)
+    screen.blit(image, text)
+
+    image = font.render("effects of pollution across the globe", \
+                        True, (42, 79, 138))
+    text = image.get_rect()
+    text.center = (200, 510)
+    screen.blit(image, text)
     pygame.display.flip()
+    
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             win = False
