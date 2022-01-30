@@ -300,130 +300,137 @@ while in_program:
             list_items += 1                                                                                     # mark as being displayed
             group.add(gift_shop_count)                                                                          # prepare to be drawn to screen
         else:
-            group.remove(gift_shop_count)
+            group.remove(gift_shop_count)   # prevent from being displayed
         # if at least 1 donator, create its counter text
         if generators["donator"] > 0:
-            donation_count.image = font.render("Donators: " + str(generators["donator"]), True, (0,0,0))
-            donation_count.rect = pygame.Rect(0, list_items*16 + 2, 1, 1)
-            list_items += 1
-            group.add(donation_count)
+            donation_count.image = font.render("Donators: " + str(generators["donator"]), True, (0,0,0))    # make image for text
+            donation_count.rect = pygame.Rect(0, list_items*16 + 2, 1, 1)                                   # get image location
+            list_items += 1                                                                                 # mark as being displayed
+            group.add(donation_count)                                                                       # prepare to be drawn to screen
         else:
-            group.remove(donation_count)
+            group.remove(donation_count)    # prevent from being displayed
         # if at least 1 grant, create its counter text
         if generators["grant"] > 0:
-            grant_count.image = font.render("Grants earned: " + str(generators["grant"]), True, (0,0,0))
-            grant_count.rect = pygame.Rect(0, list_items*16 + 2, 1, 1)
-            list_items += 1
-            group.add(grant_count)
+            grant_count.image = font.render("Grants earned: " + str(generators["grant"]), True, (0,0,0))    # make image for text
+            grant_count.rect = pygame.Rect(0, list_items*16 + 2, 1, 1)                                      # get image location
+            list_items += 1                                                                                 # mark as being displayed
+            group.add(grant_count)                                                                          # prepare to be drawn to screen
         else:
-            group.remove(grant_count)
+            group.remove(grant_count)   # prevent from being displayed
         # if at least 1 volunteer, create its counter text
         if generators["volunteer"] > 0:
-            volunteer_count.image = font.render("Volunteers: " + str(generators["volunteer"]), True, (0,0,0))
-            volunteer_count.rect = pygame.Rect(0, list_items*16 + 2, 1, 1)
-            list_items += 1
-            group.add(volunteer_count)
+            volunteer_count.image = font.render("Volunteers: " + str(generators["volunteer"]), True, (0,0,0))   # make image for text
+            volunteer_count.rect = pygame.Rect(0, list_items*16 + 2, 1, 1)                                      # get image location
+            list_items += 1                                                                                     # mark as being displayed
+            group.add(volunteer_count)                                                                          # prepare to be drawn to screen
         else:
-            group.remove(volunteer_count)
+            group.remove(volunteer_count)   # prevent from being displayed
         # if at least 1 volunteer group, create its counter text
         if generators["volunteer group"] > 0:
-            volunteer_group_count.image = font.render("Volunteer Groups: " + str(generators["volunteer group"]), True, (0,0,0))
-            volunteer_group_count.rect = pygame.Rect(0, list_items*16 + 2, 1, 1)
-            list_items += 1
-            group.add(volunteer_group_count)
+            volunteer_group_count.image = font.render("Volunteer Groups: " + str(generators["volunteer group"]), True, (0,0,0)) # make image for text
+            volunteer_group_count.rect = pygame.Rect(0, list_items*16 + 2, 1, 1)                                                # get image location
+            list_items += 1                                                                                                     # mark as being displayed
+            group.add(volunteer_group_count)                                                                                    # prepare to be drawn to screen
         else:
-            group.remove(volunteer_group_count)
+            group.remove(volunteer_group_count) # prevent from being displayed
         # if at least 1 recycle plant, create its counter text
         if generators["recycle plant"] > 0:
-            recycle_plant_count.image = font.render("Recycle Plants: " + str(generators["recycle plant"]), True, (0,0,0))
-            recycle_plant_count.rect = pygame.Rect(0, list_items*16 + 2, 1, 1)
-            list_items += 1
-            group.add(recycle_plant_count)
+            recycle_plant_count.image = font.render("Recycle Plants: " + str(generators["recycle plant"]), True, (0,0,0))   # make image for text
+            recycle_plant_count.rect = pygame.Rect(0, list_items*16 + 2, 1, 1)                                              # get image location
+            list_items += 1                                                                                                 # mark as being displayed
+            group.add(recycle_plant_count)                                                                                  # prepare to be drawn to screen
         else:
-            group.remove(recycle_plant_count)
+            group.remove(recycle_plant_count)   # prevent from being displayed
         # if at least 1 factory, create its counter text
         if generators["factory"] > 0:
-            factory_count.image = font.render("Factories: " + str(generators["factory"]), True, (0,0,0))
-            factory_count.rect = pygame.Rect(0, list_items*16 + 2, 1, 1)
-            factory_count_2.image = font.render("    (+100 pollution/sec)", True, (0,0,0))
-            factory_count_2.rect = pygame.Rect(0, (list_items + 1)*16 + 2, 1, 1)
-            list_items += 2
-            group.add(factory_count)
-            group.add(factory_count_2)
+            factory_count.image = font.render("Factories: " + str(generators["factory"]), True, (0,0,0))    # make image for text line 1
+            factory_count.rect = pygame.Rect(0, list_items*16 + 2, 1, 1)                                    # get image location for text line 1
+            factory_count_2.image = font.render("    (+100 pollution/sec)", True, (0,0,0))                  # make image for text line 2
+            factory_count_2.rect = pygame.Rect(0, (list_items + 1)*16 + 2, 1, 1)                            # get image location for text line 2
+            list_items += 2                                                                                 # mark as 2 lines being displayed
+            group.add(factory_count)                                                                        # prepare text line 1 to be drawn to screen
+            group.add(factory_count_2)                                                                      # prepare text line 2 to be drawn to screen
         else:
-            group.remove(factory_count)
-            group.remove(factory_count_2)
+            group.remove(factory_count)     # prevent text line 1 from being displayed
+            group.remove(factory_count_2)   # prevent text line 2 from being displayed
 
-        # get image for counters
+        # set up displaying counters for passive pollution, pollution, and money
         passive_text = font.render("Passive Pollution: +" + str(passive.pol) + "/sec", True, (0,0,0))   # for passive pollution counter
         pollution_text = font.render("Pollution: " + str(pollution), True, (0,0,0))                     # for pollution counter
         money_text = font.render("$" + str(money), True, (0,0, 0))                                      # for money counter
+        passive_text_rect = passive_text.get_rect()     # get rect for passive pollution counter
+        pollution_text_rect = pollution_text.get_rect() # get rect for pollution counter
+        money_text_rect = pollution_text.get_rect()     # get rect for money counter
+        passive_text_rect.right = screen.get_rect().right - 2   # move passive pollution counter to right of screen
+        pollution_text_rect.right = screen.get_rect().right - 2 # move pollution counter to right of screen
+        money_text_rect.right = screen.get_rect().right - 2     # move money counter to right of screen
+        passive_text_rect.top = 130     # set y of passive pollution counter
+        pollution_text_rect.top = 162   # set y of pollution counter
+        money_text_rect.top = 178       # set y of money counter
+        screen.blit(passive_text, passive_text_rect)        # display passive pollution counter
+        screen.blit(pollution_text, pollution_text_rect)    # display pollution counter
+        screen.blit(money_text, money_text_rect)            # display money counter
 
-        passive_text_rect = passive_text.get_rect()
-        pollution_text_rect = pollution_text.get_rect()
-        money_text_rect = pollution_text.get_rect()
-        passive_text_rect.right = screen.get_rect().right - 2
-        pollution_text_rect.right = screen.get_rect().right - 2
-        money_text_rect.right = screen.get_rect().right - 2
-        passive_text_rect.top = 130
-        pollution_text_rect.top = 162
-        money_text_rect.top = 178
-
-        screen.blit(passive_text, passive_text_rect)
-        screen.blit(pollution_text, pollution_text_rect)
-        screen.blit(money_text, money_text_rect)
-
+        # show hints
+        # if hint is new, flash it as white to get user's attention
         if time.time() - hint_time <= 0.1:
-            hint_color = (255, 255, 255)
+            hint_color = (255, 255, 255)    # set hint background to white
         else:
-            hint_color = (0,0,0)
-            
-        bottom_text = pygame.sprite.Sprite(group)
-        bottom_text.image = pygame.Surface((screen.get_rect().width, 36))
-        bottom_text.rect = bottom_text.image.get_rect()
-        bottom_text.rect.topleft = (0, screen.get_rect().bottom - 36)
-        bottom_text.image.fill(hint_color)
-
-        
-
-        companies.draw(screen)
-        buttons.draw(screen)
-        group.draw(screen)
-
-        
-        
-        if pollution >= 5000:
+            hint_color = (0,0,0)            # set hint background to black
+        # set up sprite for hint text box
+        bottom_text = pygame.sprite.Sprite(group)                           # create sprite
+        bottom_text.image = pygame.Surface((screen.get_rect().width, 36))   # get image for text box
+        bottom_text.rect = bottom_text.image.get_rect()                     # get rect for text box
+        bottom_text.rect.topleft = (0, screen.get_rect().bottom - 36)       # move text box to bottom of screen
+        bottom_text.image.fill(hint_color)                                  # fill text box with color
+        # show most prioritized hint
+        if pollution >= 5000:   # hint for if pollution is high
+            # if new hint, reset hint flash timer
             if hint_mode != 4:
-                hint_time = time.time()
-                hint_mode = 4
-            text_1 = font.render("Hint: If you reach 10,000 pollution, you lose", True, (255, 255, 255))
-            text_2 = font.render("", True, (255, 255, 255))
-        elif first_factory:
+                hint_time = time.time() # reset timer
+                hint_mode = 4           # set hint mode
+
+            # get text
+            text_1 = font.render("Hint: If you reach 10,000 pollution, you lose", True, (255, 255, 255))    # get hint text
+            text_2 = font.render("", True, (255, 255, 255))                                                 # line 2 empty
+        elif first_factory: # hint for when first company appears
+            # if new hint, reset hint flash timer
             if hint_mode != 3:
-                hint_time = time.time()
-                hint_mode = 3
-            text_1 = font.render("Hint: Click on the company to prevent it from", True, (255,255,255))
-            text_2 = font.render("building harmful factories", True, (255, 255, 255))
-        elif passive.pol > 1:
+                hint_time = time.time() # reset timer
+                hint_mode = 3           # set hint mode
+                
+            text_1 = font.render("Hint: Click on the company to prevent it from", True, (255,255,255))  # get hint text
+            text_2 = font.render("building harmful factories", True, (255, 255, 255))                   # get hint text line 2
+        elif passive.pol > 1:   # hint for passive pollution increasing
+            # if new hint, reset hint flash timer
             if hint_mode != 2:
-                hint_time = time.time()
-                hint_mode = 2
-            text_1 = font.render("Hint: The passive pollution rate will rise over time", True, (255, 255, 255))
-            text_2 = font.render("", True, (255, 255, 255))
-        elif money >= 10:
+                hint_time = time.time() # reset timer
+                hint_mode = 2           # set hint mode
+                
+            text_1 = font.render("Hint: The passive pollution rate will rise over time", True, (255, 255, 255)) # get hint text
+            text_2 = font.render("", True, (255, 255, 255))                                                     # line 2 empty
+        elif money >= 10:   # hint for spending money
+            # if new hint, reset hint flash timer
             if hint_mode != 1:
-                hint_time = time.time()
-                hint_mode = 1
-            text_1 = font.render("Hint: You can spend money using the buttons in the top right", True, (255, 255, 255))
-            text_2 = font.render("", True, (255, 255, 255))
-        else:
-            hint_mode = 0
-            text_1 = font.render("Hint: Click the Earth to reduce pollution and earn money", True, (255, 255, 255))
-            text_2 = font.render("", True, (255, 255, 255))
-            
-        screen.blit(text_1, (bottom_text.rect.x + 1, bottom_text.rect.y + 1))
-        screen.blit(text_2, (bottom_text.rect.x + 1, bottom_text.rect.y + 17))
-        pygame.display.update()
+                hint_time = time.time() # reset timer
+                hint_mode = 1           # set hint mode
+                
+            text_1 = font.render("Hint: You can spend money using the buttons in the top right", True, (255, 255, 255)) # get hint text
+            text_2 = font.render("", True, (255, 255, 255))                                                             # line 2 empty
+        else:   # hint for how to click clicker
+            hint_mode = 0                                                                                           # set hint mode
+            text_1 = font.render("Hint: Click the Earth to reduce pollution and earn money", True, (255, 255, 255)) # get hint text
+            text_2 = font.render("", True, (255, 255, 255))                                                         # line 2 empty
+        # display hint text
+        screen.blit(text_1, (bottom_text.rect.x + 1, bottom_text.rect.y + 1))   # display hint text line 1
+        screen.blit(text_2, (bottom_text.rect.x + 1, bottom_text.rect.y + 17))  # display hint text line 2
+
+        # draw sprites to screen
+        companies.draw(screen)  # draw companies
+        buttons.draw(screen)    # draw buttons
+        group.draw(screen)      # draw misc
+
+        pygame.display.update() # display screen to user
 
     # Get the start time for the click buffer
     buffer_start = time.time()
