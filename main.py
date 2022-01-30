@@ -459,15 +459,15 @@ while in_program:
         screen.blit(image, text)                                # Display on screen
 
         # Create and display top text
-        image = font.render("If nothing is done soon, the", \   # Create the text (font already created)
-                            True, (0, 0, 0))
+        image = font.render("If nothing is done soon, the", \
+                            True, (0, 0, 0))                    # Create the text (font already created)
         text = image.get_rect()                                 # Create hitbox of the text
         text.center = (200, 490)                                # Move text to location
         screen.blit(image, text)                                # Display on screen
 
         # Create and display bottom text
-        image = font.render("effects of pollution will be out of control", \# Create the text (font already created)
-                            True, (0, 0, 0))
+        image = font.render("effects of pollution will be out of control", \
+                            True, (0, 0, 0))                                # Create the text (font already created)
         text = image.get_rect()                                             # Create hitbox of the text
         text.center = (200, 510)                                            # Move text to location
         screen.blit(image, text)                                            # Display on screen
@@ -512,15 +512,15 @@ while in_program:
         screen.blit(image, text)                                    # Display on screen
 
         # Create and display top text
-        image = font.render("If we act fast, we can reverse the", \ # Create the text (font already created)
-                            True, (42, 79, 138))
+        image = font.render("If we act fast, we can reverse the", \
+                            True, (42, 79, 138))                    # Create the text (font already created)
         text = image.get_rect()                                     # Create hitbox of the text
         text.center = (200, 490)                                    # Move text to location
         screen.blit(image, text)                                    # Display on screen
 
         # Create and display bottom text
-        image = font.render("effects of pollution across the globe", \  # Create the text (font already created)
-                            True, (42, 79, 138))
+        image = font.render("effects of pollution across the globe", \
+                            True, (42, 79, 138))                        # Create the text (font already created)
         text = image.get_rect()                                         # Create hitbox of the text
         text.center = (200, 510)                                        # Move text to location
         screen.blit(image, text)                                        # Display on screen
