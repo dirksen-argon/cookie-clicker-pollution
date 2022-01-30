@@ -249,11 +249,13 @@ while in_program:
         if factory_time >= 160 and not(fourth_factory):     # After 160 seconds, create the fourth company once
             companies.add(company.Company(302, 456))        # Define location of company icon
             fourth_factory = True                           # Set flag true to prevent repeats
-            
+
+        # If pollution reaches 10,000 or higher, break to the lose loop    
         if pollution >= 10000:
             lose = True
             break
 
+        # If pollution reaches 0 or lower, break to the win loop
         if pollution <= 0:
             win = True
             break
@@ -264,23 +266,31 @@ while in_program:
                 generators["factory"] += 1
                 generator_list.append(result)
             pygame.draw.rect(screen, (0,0,0), pygame.Rect(comp.rect.left, comp.rect.bottom + 1, comp.get_progress()*comp.rect.width, 10))
-            
+
+        # Skip if and for statements if the player isn't hovering over any item    
         your_hand = False
+
+        # Get position of the player's mouse
         position = pygame.mouse.get_pos()
+
+        # If the mouse collides with the clicker's hitbox, set the cursor to the hand
         if my_clicker.rect.collidepoint(position):
             your_hand = True
             pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
 
+        # For all buyable items, check if the mouse collides with their hitbox, if so, set the cursor to the hand
         for be in buttons:
             if be.rect.collidepoint(position):
                 your_hand = True
                 pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
 
+        # For all clickable companies, check if the mouse collides with their hitbox, if so, set the cursor to the hand
         for pol in companies:
             if pol.rect.collidepoint(position):
                 your_hand = True
                 pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
 
+        # Set the mouse to arrow by default
         if your_hand == False:
             pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
 
