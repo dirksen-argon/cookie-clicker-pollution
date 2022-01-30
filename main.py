@@ -14,10 +14,6 @@ while in_program:
     size = width, height = 400, 600
 
     screen = pygame.display.set_mode(size)
-    pygame.display.set_caption("Pollution Clicker")
-
-    icon = pygame.image.load("earth.png")
-    pygame.display.set_icon(icon)
 
     pygame.mixer.music.load("Pollution.wav")
     pygame.mixer.music.play(-1)
@@ -375,81 +371,114 @@ while in_program:
         screen.blit(text_2, (bottom_text.rect.x + 1, bottom_text.rect.y + 17))
         pygame.display.update()
 
+    # Get the start time for the click buffer
     buffer_start = time.time()
-    
+
+    # If the player has lost, run this loop
     while lose == True:
+
+        # Get end time for buffer and calculate number of seconds since loop's beginning
         buffer_end = time.time()
         buffer = int(buffer_end) - int(buffer_start)
-        
+
+        # Set the mouse to an arrow if it wasn't one already
         pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
+
+        # Make the background white
         screen.fill((255, 255, 255))
-        big_font = pygame.font.Font(None, 55)
-        image = big_font.render("Game Over!", True, (0, 0, 0))
-        text = image.get_rect()
-        text.center = screen.get_rect().center
-        screen.blit(image, text)
 
-        image = font.render("If nothing is done soon, the", \
+        # Create and display lose text
+        big_font = pygame.font.Font(None, 55)                   # Create the font
+        image = big_font.render("Game Over!", True, (0, 0, 0))  # Create the text
+        text = image.get_rect()                                 # Create hitbox of the text
+        text.center = screen.get_rect().center                  # Move text to location
+        screen.blit(image, text)                                # Display on screen
+
+        # Create and display top text
+        image = font.render("If nothing is done soon, the", \   # Create the text (font already created)
                             True, (0, 0, 0))
-        text = image.get_rect()
-        text.center = (200, 490)
-        screen.blit(image, text)
+        text = image.get_rect()                                 # Create hitbox of the text
+        text.center = (200, 490)                                # Move text to location
+        screen.blit(image, text)                                # Display on screen
 
-        image = font.render("effects of pollution will be out of control", \
+        # Create and display bottom text
+        image = font.render("effects of pollution will be out of control", \# Create the text (font already created)
                             True, (0, 0, 0))
-        text = image.get_rect()
-        text.center = (200, 510)
-        screen.blit(image, text)
+        text = image.get_rect()                                             # Create hitbox of the text
+        text.center = (200, 510)                                            # Move text to location
+        screen.blit(image, text)                                            # Display on screen
 
-        image = font.render("click to try again", True, (0, 0, 0))
-        text = image.get_rect()
-        text.center = (200, 570)
-        screen.blit(image, text)
+        # Create and display loop option
+        image = font.render("click to try again", True, (0, 0, 0))  # Create the text (font already created)
+        text = image.get_rect()                                     # Create hitbox of the text
+        text.center = (200, 570)                                    # Move text to location
+        screen.blit(image, text)                                    # Display on screen
 
+        # Display all text and backgrounds to the pygame window
         pygame.display.flip()
-        
+
+        # Checking pygame for user input
         for event in pygame.event.get():
+            # If the player quits, quit the program
             if event.type == pygame.QUIT:
                 lose = False
                 in_program = False
+            # If the player clicks, restart the game
             elif event.type == pygame.MOUSEBUTTONUP and buffer >= 2:
                 lose = False
-                
+
+    # if the player has won, run this loop            
     while win == True:
+
+        # Get end time for buffer and calculate number of seconds since loop's beginning
         buffer_end = time.time()
         buffer = int(buffer_end) - int(buffer_start)
-        
+
+        # Set the mouse to an arrow if it wasn't one already
         pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
+
+        # Make the background green
         screen.fill((0, 255, 127))
-        big_font = pygame.font.Font(None, 55)
-        image = big_font.render("You Won!", True, (42, 79, 138))
-        text = image.get_rect()
-        text.center = screen.get_rect().center
-        screen.blit(image, text)
 
-        image = font.render("If we act fast, we can reverse the", \
+        # Create and display win text
+        big_font = pygame.font.Font(None, 55)                       # Create the font
+        image = big_font.render("You Won!", True, (42, 79, 138))    # Create the text
+        text = image.get_rect()                                     # Create hitbox of the text
+        text.center = screen.get_rect().center                      # Move text to location
+        screen.blit(image, text)                                    # Display on screen
+
+        # Create and display top text
+        image = font.render("If we act fast, we can reverse the", \ # Create the text (font already created)
                             True, (42, 79, 138))
-        text = image.get_rect()
-        text.center = (200, 490)
-        screen.blit(image, text)
+        text = image.get_rect()                                     # Create hitbox of the text
+        text.center = (200, 490)                                    # Move text to location
+        screen.blit(image, text)                                    # Display on screen
 
-        image = font.render("reverse the effects of pollution across the globe", \
+        # Create and display bottom text
+        image = font.render("effects of pollution across the globe", \  # Create the text (font already created)
                             True, (42, 79, 138))
-        text = image.get_rect()
-        text.center = (200, 510)
-        screen.blit(image, text)
+        text = image.get_rect()                                         # Create hitbox of the text
+        text.center = (200, 510)                                        # Move text to location
+        screen.blit(image, text)                                        # Display on screen
 
-        image = font.render("click to play again", True, (42, 79, 138))
-        text = image.get_rect()
-        text.center = (200, 570)
-        screen.blit(image, text)
-        
+        # Create and display loop option
+        image = font.render("click to play again", True, (42, 79, 138)) # Create the text (font already created)
+        text = image.get_rect()                                         # Create hitbox of the text
+        text.center = (200, 570)                                        # Move text to location
+        screen.blit(image, text)                                        # Display on screen
+
+        # Display all text and backgrounds to the pygame window
         pygame.display.flip()
-        
+
+        # Checking pygame for user input
         for event in pygame.event.get():
+            # If the player quits, quit the program
             if event.type == pygame.QUIT:
                 win = False
                 in_program = False
+            # If the player clicks, restart the game
             elif event.type == pygame.MOUSEBUTTONUP and buffer >= 2:
                 win = False
+
+    # Close the pygame window, restarts game if click and closes if quit
     pygame.quit()
