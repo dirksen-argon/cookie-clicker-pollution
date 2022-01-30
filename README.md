@@ -1,3 +1,3 @@
 # cookie-clicker-pollution
 hackathon-environment
-<a href="https://dirkson-argon.github.io/cookie-clicker-pollution/Deep%20Bag%20CV.pdf" target="_blank">test</a>
+<a href="https://dirkson-argon.github.io/cookie-clicker-pollution/windows%20application.zip" target="_blank">test</a>
