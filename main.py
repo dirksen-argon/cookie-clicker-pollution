@@ -6,6 +6,7 @@ import button
 import random
 import time
 import company
+import difficulty
 
 # program loop Boolean
 in_program = True
@@ -13,19 +14,19 @@ in_program = True
 # while program running
 while in_program:
 
-    pygame.init()   # initialize pygame
-
-    # set up the application window
-    size = width, height = 400, 600     # set the screen size
-    screen = pygame.display.set_mode(size)  # create the screen
     pygame.display.set_caption("Pollution Clicker") # set the window caption
     icon = pygame.image.load("earth.png")   # prepare the window icon
     pygame.display.set_icon(icon)           # set the window icon
 
-    # set up sounds
+    pygame.init()   # initialize pygame
+            # set up the application window
+    size = width, height = 400, 600     # set the screen size
+    screen = pygame.display.set_mode(size)  # create the screen
+            # set up sounds
     pygame.mixer.music.load("Pollution.wav")        # load music
     pygame.mixer.music.play(-1)                     # play music on loop
     pygame.mixer.music.set_volume(0.2)              # set music volume
+
     click_sound = pygame.mixer.Sound("click.mp3")   # load clicking sound
 
     # set up the clicker
@@ -56,33 +57,6 @@ while in_program:
                   "gift shop": 0, "donator": 0, "grant": 0, "factory": 0}       # store counts of generators
     generator_list = [] # store generators
 
-    # set up buttons
-    buttons = pygame.sprite.RenderPlain()   # create sprite group for buttons
-    v_button = button.Button("Volunteer: $50, -1 pollution/sec", 50, 1, -1)             # create volunteer button
-    v_g_button = button.Button("Volunteer Group: $200, -5 pollution/sec", 200, 1, -5)   # create volunteer group button
-    r_p_button = button.Button("Recycle Plant: $1000, -50 pollution/sec", 1000, 1, -50) # create recycle plant button
-    g_s_button = button.Button("Open gift shop: $10, +$1/sec", 10, 1, 0, 1)             # create gift shop button
-    d_button = button.Button("Earn donations: $100, +$15/sec", 100, 1, 0, 15)           # create donator button
-    g_button = button.Button("Apply for grant: $500, $100/sec", 500, 1, 0, 100)         # create grant button
-    v_button.rect.right = screen.get_rect().right - 2   # set right border of volunteer button
-    v_g_button.rect.right = screen.get_rect().right - 2 # set right border of volunteer group button
-    r_p_button.rect.right = screen.get_rect().right - 2 # set right border of recycle plant button
-    g_s_button.rect.right = screen.get_rect().right - 2 # set right border of gift shop button
-    d_button.rect.right = screen.get_rect().right - 2   # set right border of donator button
-    g_button.rect.right = screen.get_rect().right - 2   # set right border of grant button
-    v_button.rect.top = 2                               # set top of volunteer button
-    v_g_button.rect.top = 18                            # set top of volunteer group button
-    r_p_button.rect.top = 34                            # set top of recycle plant button
-    g_s_button.rect.top = 66                            # set top of gift shop button
-    d_button.rect.top = 82                              # set top of donator button
-    g_button.rect.top = 98                              # set top of grant button
-    buttons.add(v_button)   # add volunteer button to sprite group
-    buttons.add(v_g_button) # add volunteer group button to sprite group
-    buttons.add(r_p_button) # add recycle plant button to sprite group
-    buttons.add(g_s_button) # add gift shop button to sprite group
-    buttons.add(d_button)   # add donator button to sprite group
-    buttons.add(g_button)   # add grant button to sprite group
-
     # set up companies
     companies = pygame.sprite.RenderPlain() # create sprite group for companies
 
@@ -101,6 +75,7 @@ while in_program:
     win = False     # for game loop after win
     running = True  # for main game loop
     setup = True    # for tutorial game loop
+    no_limit = False
 
     # set up text lines for tutorial
     lines = []                                  # initialize as list
@@ -108,6 +83,21 @@ while in_program:
     # add sprites to list and sprite group
     for i in range(22):
         lines.append(pygame.sprite.Sprite(line_group))  # create sprite and add it to list and sprite group
+
+    easy = difficulty.Difficulty("Easy", click_sound)
+    medium = difficulty.Difficulty("Medium", click_sound)
+    hard = difficulty.Difficulty("Hard", click_sound)
+
+    difficulty_buttons = [easy, medium, hard]
+
+    easy.rect.centerx = screen.get_rect().centerx
+    easy.rect.centery = int(screen.get_rect().centery) - 90
+
+    medium.rect.centerx = screen.get_rect().centerx
+    medium.rect.centery = screen.get_rect().centery - 20
+
+    hard.rect.centerx = screen.get_rect().centerx
+    hard.rect.centery = int(screen.get_rect().centery) + 50
 
     # begin tutorial game loop
     while setup:
@@ -120,9 +110,10 @@ while in_program:
                 setup = False       # tutorial game loop Boolean to False
                 running = False     # main game loop Boolean to False
                 in_program = False  # program running loop Boolean to False
+                difficulty_bool = False
 
             # if mouse click, end tutorial game loop
-            if event.type == pygame.MOUSEBUTTONUP:
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 setup = False   # tutorial game loop Boolean to False
 
         # create images with tutorial text
@@ -155,6 +146,112 @@ while in_program:
         line_group.draw(screen)         # draw text lines on screen
         pygame.display.update()         # update screen
 
+    difficulty_bool = True
+
+    while difficulty_bool == True:
+
+        screen.fill((255, 255, 255))
+
+          # event handling
+        for event in pygame.event.get():
+
+            your_hand = False
+
+            # if program end, game loop Booleans to False
+            if event.type == pygame.QUIT:
+                difficulty_bool = False       # tutorial game loop Boolean to False
+                running = False     # main game loop Boolean to False
+                in_program = False  # program running loop Boolean to False
+            elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                pos = pygame.mouse.get_pos()
+                clicked_buttons = [b for b in difficulty_buttons if b.rect.collidepoint(pos)]
+                for g in clicked_buttons:
+                    chosen_difficulty = g.click()
+                    if str(chosen_difficulty) == "Easy":
+                        volunteer_cost = 50
+                        volunteer_group = 200
+                        recycle_plant = 1000
+                        gift_shop = 10
+                        donation_cost = 100
+                        grant_cost = 500
+                        
+                        doubler = 15
+                        factory_doubler = 40
+                        creation = 10
+                        difficulty_bool = False
+                        break
+                    elif str(chosen_difficulty) == "Medium":
+                        volunteer_cost = 50
+                        volunteer_group = 200
+                        recycle_plant = 1000
+                        gift_shop = 10
+                        donation_cost = 100
+                        grant_cost = 500
+                        
+                        doubler = 10
+                        factory_doubler = 30
+                        creation = 7
+                        difficulty_bool = False
+                        break
+                    elif str(chosen_difficulty) == "Hard":
+                        volunteer_cost = 50
+                        volunteer_group = 200
+                        recycle_plant = 1000
+                        gift_shop = 10
+                        donation_cost = 100
+                        grant_cost = 500
+                        
+                        doubler = 10
+                        factory_doubler = 15
+                        creation = 5
+                        no_limit = True
+                        difficulty_bool = False
+                        break
+                    else:
+                        raise AssertionError("The button you clicked does not match the label of the button in-code")
+                    break
+
+            pos = pygame.mouse.get_pos()
+            hovered_buttons = [tee for tee in difficulty_buttons if tee.rect.collidepoint(pos)]
+            for a in hovered_buttons:
+                if a.rect.collidepoint(pos):
+                    your_hand = True
+                    pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+            if your_hand == False:
+                pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
+
+        screen.blit(easy.image, easy.rect)
+        screen.blit(medium.image, medium.rect)
+        screen.blit(hard.image, hard.rect)
+        pygame.display.update()
+
+        # set up buttons
+    buttons = pygame.sprite.RenderPlain()   # create sprite group for buttons
+    v_button = button.Button("Volunteer: $" + str(volunteer_cost) + ", -1 pollution/sec", volunteer_cost, 1, -1)             # create volunteer button
+    v_g_button = button.Button("Volunteer Group: $" + str(volunteer_group) + ", -5 pollution/sec", volunteer_group, 1, -5)   # create volunteer group button
+    r_p_button = button.Button("Recycle Plant: $" + str(recycle_plant) + ", -50 pollution/sec", recycle_plant, 1, -50) # create recycle plant button
+    g_s_button = button.Button("Open gift shop: $" + str(gift_shop) + ", +$1/sec", gift_shop, 1, 0, 1)             # create gift shop button
+    d_button = button.Button("Earn donations: $" + str(donation_cost) + ", +$15/sec", donation_cost, 1, 0, 15)           # create donator button
+    g_button = button.Button("Apply for grant: $" + str(grant_cost) + ", $100/sec", grant_cost, 1, 0, 100)         # create grant button
+    v_button.rect.right = screen.get_rect().right - 2   # set right border of volunteer button
+    v_g_button.rect.right = screen.get_rect().right - 2 # set right border of volunteer group button
+    r_p_button.rect.right = screen.get_rect().right - 2 # set right border of recycle plant button
+    g_s_button.rect.right = screen.get_rect().right - 2 # set right border of gift shop button
+    d_button.rect.right = screen.get_rect().right - 2   # set right border of donator button
+    g_button.rect.right = screen.get_rect().right - 2   # set right border of grant button
+    v_button.rect.top = 2                               # set top of volunteer button
+    v_g_button.rect.top = 18                            # set top of volunteer group button
+    r_p_button.rect.top = 34                            # set top of recycle plant button
+    g_s_button.rect.top = 66                            # set top of gift shop button
+    d_button.rect.top = 82                              # set top of donator button
+    g_button.rect.top = 98                              # set top of grant button
+    buttons.add(v_button)   # add volunteer button to sprite group
+    buttons.add(v_g_button) # add volunteer group button to sprite group
+    buttons.add(r_p_button) # add recycle plant button to sprite group
+    buttons.add(g_s_button) # add gift shop button to sprite group
+    buttons.add(d_button)   # add donator button to sprite group
+    buttons.add(g_button)   # add grant button to sprite group
+        
     # set up timers
     start_time = time.time()    # timer for passive pollution
     factory_start = time.time() # timer for company creation
@@ -170,12 +267,12 @@ while in_program:
 
         # handle passive pollution
         # if enough time has passed, double passive polution
-        if int(time.time()) - int(start_time) >= 15:
+        if int(time.time()) - int(start_time) >= doubler:
             passive.pol = passive.pol * 2   # double passive polution
             start_time = time.time()        # reset timer
 
             # if passive pollution is to high, lower it
-            if passive.pol >= 700:
+            if passive.pol >= 700 and no_limit != True:
                 passive.pol = 700   # lower passive polution
 
         # event handling
@@ -187,7 +284,7 @@ while in_program:
                 in_program = False  # program running Boolean to False
 
             # if mouse click, check if it clicked on a hitbox
-            elif event.type == pygame.MOUSEBUTTONUP:
+            elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 pos = pygame.mouse.get_pos()    # get mouse position
 
                 # if clicked on clicker, change polution and money
@@ -234,20 +331,20 @@ while in_program:
         factory_end = time.time()                           # End factory timer
         factory_time = int(factory_end) - int(factory_start)# Calculate amount of time passed
         
-        if factory_time >= 40 and not(first_factory):       # After 40 seconds, create the first company once
-            companies.add(company.Company(2, 456))          # Define location of the company icon
+        if factory_time >= factory_doubler and not(first_factory):       # After some seconds, create the first company once
+            companies.add(company.Company(2, 456, creation))          # Define location of the company icon
             first_factory = True                            # Set flag true to prevent repeating first factory
             
-        if factory_time >= 80 and not(second_factory):      # After 80 seconds, create the second company once
-            companies.add(company.Company(102, 456))        # Define location of the company icon
+        if factory_time >= factory_doubler * 2 and not(second_factory):      # After some*2 seconds, create the second company once
+            companies.add(company.Company(102, 456, creation))        # Define location of the company icon
             second_factory = True                           # Set flag true to prevent repeats
             
-        if factory_time >= 120 and not(third_factory):      # After 120 seconds, create the third company once
-            companies.add(company.Company(202, 456))        # Define location of company icon
+        if factory_time >= factory_doubler * 3 and not(third_factory):      # After some*3 seconds, create the third company once
+            companies.add(company.Company(202, 456, creation))        # Define location of company icon
             third_factory = True                            # Set flag true to prevent repeats
             
-        if factory_time >= 160 and not(fourth_factory):     # After 160 seconds, create the fourth company once
-            companies.add(company.Company(302, 456))        # Define location of company icon
+        if factory_time >= factory_doubler * 4 and not(fourth_factory):     # After some*4 seconds, create the fourth company once
+            companies.add(company.Company(302, 456, creation))        # Define location of company icon
             fourth_factory = True                           # Set flag true to prevent repeats
 
         # If pollution reaches 10,000 or higher, break to the lose loop    
@@ -498,7 +595,7 @@ while in_program:
                 lose = False
                 in_program = False
             # If the player clicks, restart the game
-            elif event.type == pygame.MOUSEBUTTONUP and buffer >= 2:
+            elif event.type == pygame.MOUSEBUTTONUP and buffer >= 1 and event.button == 1:
                 lose = False
 
     # if the player has won, run this loop            
@@ -551,7 +648,7 @@ while in_program:
                 win = False
                 in_program = False
             # If the player clicks, restart the game
-            elif event.type == pygame.MOUSEBUTTONUP and buffer >= 2:
+            elif event.type == pygame.MOUSEBUTTONUP and buffer >= 1 and event.button == 1:
                 win = False
 
     # Close the pygame window, restarts game if click and closes if quit

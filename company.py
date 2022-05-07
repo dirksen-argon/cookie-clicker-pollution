@@ -9,7 +9,7 @@ if __name__ != "__main__":
     class Company(pygame.sprite.Sprite):
 
         # constructor
-        def __init__(self, x, y):
+        def __init__(self, x, y, timer):
             
             super().__init__()                                          # parent constructor
             self.start = time.time()                                    # save time of creation
@@ -18,6 +18,7 @@ if __name__ != "__main__":
             self.rect = self.image.get_rect()                           # get hitbox
             self.sound = pygame.mixer.Sound("factory_built.mp3")        # set factory creation sound
             self.rect.topleft = (x, y)                                  # set location of image
+            self.timer = timer
 
         # runs once per tick
         def tick(self):
@@ -26,7 +27,7 @@ if __name__ != "__main__":
             house = int(end) - int(self.start)  # get time since last set time
 
             # if 10+ seconds have passed, create a factory
-            if house >= 10:
+            if house >= self.timer:
                 self.start = time.time()                # reset clock to now
                 factory = generator.Generator(1, 100)   # create new generator
                 self.sound.play()                       # play factory creation sound
@@ -39,9 +40,9 @@ if __name__ != "__main__":
         # return decimal (0-1) representing how close to building a factory the company is
         def get_progress(self):
             
-            end = time.time()               # get current time
-            house = (end - self.start)/10   # get decimal representing how close to factory creation
-            return house                    # return the decimal
+            end = time.time()                       # get current time
+            house = (end - self.start)/self.timer   # get decimal representing how close to factory creation
+            return house                            # return the decimal
 
         # runs when Company is clicked
         def click(self):
